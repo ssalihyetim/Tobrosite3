@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAD Viewer Debug</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cad-viewer.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .debug-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .debug-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .debug-logs {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .test-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .test-btn.primary { background: #007bff; color: white; }
+        .test-btn.success { background: #28a745; color: white; }
+        .test-btn.warning { background: #ffc107; color: black; }
+        .test-btn.danger { background: #dc3545; color: white; }
+        
+        #cad-viewer {
+            width: 100%;
+            height: 400px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔧 CAD Viewer Debugging Tool</h1>
+        
+        <div class="debug-section">
+            <h2>Dependency Check</h2>
+            <div class="test-buttons">
+                <button class="test-btn primary" onclick="checkDependencies()">Check Dependencies</button>
+                <button class="test-btn success" onclick="initViewer()">Initialize Viewer</button>
+                <button class="test-btn warning" onclick="createTestModel()">Create Test Model</button>
+            </div>
+            <div id="dependency-logs" class="debug-logs"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>File Upload Test</h2>
+            <input type="file" id="test-file-input" accept=".step,.stp,.iges,.igs,.stl,.obj" onchange="loadTestFile(this.files[0])">
+            <div class="test-buttons">
+                <button class="test-btn danger" onclick="clearViewer()">Clear Viewer</button>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>CAD Viewer Container</h2>
+            <div id="cad-viewer">
+                <div class="viewer-placeholder">
+                    <i class="fas fa-cube"></i>
+                    <p>CAD Viewer Debug Mode</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>Console Logs</h2>
+            <div id="console-logs" class="debug-logs"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="js/occt-import-integration.js"></script>
+    <script src="js/cad-viewer.js"></script>
+    
+    <script>
+        let debugViewer = null;
+        let logContainer = document.getElementById('console-logs');
+        let depContainer = document.getElementById('dependency-logs');
+
+        // Override console.log to capture logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+
+        function addLog(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logLine = `[${timestamp}] ${type.toUpperCase()}: ${message}\n`;
+            logContainer.textContent += logLine;
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'log');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addLog(args.join(' '), 'warn');
+        };
+
+        function checkDependencies() {
+            depContainer.textContent = '';
+            
+            const checks = [
+                { name: 'THREE.js', check: () => typeof THREE !== 'undefined', required: true },
+                { name: 'OrbitControls', check: () => typeof THREE.OrbitControls !== 'undefined', required: false },
+                { name: 'OCCT Import JS', check: () => typeof occtimportjs !== 'undefined', required: false },
+                { name: 'CADViewer Class', check: () => typeof CADViewer !== 'undefined', required: true },
+                { name: 'OCCTImporter Class', check: () => typeof OCCTImporter !== 'undefined', required: false },
+                { name: 'CAD Viewer Container', check: () => document.getElementById('cad-viewer') !== null, required: true }
+            ];
+
+            let allRequired = true;
+            
+            checks.forEach(check => {
+                const result = check.check();
+                const status = result ? '✅ PASS' : (check.required ? '❌ FAIL' : '⚠️ OPTIONAL');
+                depContainer.textContent += `${status} ${check.name}\n`;
+                
+                if (check.required && !result) {
+                    allRequired = false;
+                }
+            });
+
+            depContainer.textContent += '\n' + (allRequired ? '🎉 All required dependencies are available!' : '⚠️ Some required dependencies are missing!');
+            
+            console.log('Dependency check completed');
+        }
+
+        function initViewer() {
+            try {
+                console.log('Initializing CAD viewer...');
+                debugViewer = new CADViewer();
+                console.log('CAD viewer initialized successfully:', debugViewer);
+            } catch (error) {
+                console.error('Failed to initialize CAD viewer:', error);
+            }
+        }
+
+        function createTestModel() {
+            if (!debugViewer) {
+                console.error('Viewer not initialized. Please initialize first.');
+                return;
+            }
+
+            try {
+                console.log('Creating test model...');
+                debugViewer.createPlaceholderModel();
+                console.log('Test model created successfully');
+            } catch (error) {
+                console.error('Failed to create test model:', error);
+            }
+        }
+
+        function loadTestFile(file) {
+            if (!file) return;
+            
+            if (!debugViewer) {
+                console.error('Viewer not initialized. Please initialize first.');
+                return;
+            }
+
+            try {
+                console.log('Loading test file:', file.name);
+                debugViewer.loadFile(file);
+            } catch (error) {
+                console.error('Failed to load test file:', error);
+            }
+        }
+
+        function clearViewer() {
+            const container = document.getElementById('cad-viewer');
+            container.innerHTML = `
+                <div class="viewer-placeholder">
+                    <i class="fas fa-cube"></i>
+                    <p>CAD Viewer Debug Mode</p>
+                </div>
+            `;
+            
+            if (debugViewer) {
+                debugViewer.dispose();
+                debugViewer = null;
+            }
+            
+            console.log('Viewer cleared');
+        }
+
+        // Auto-run dependency check on load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Debug page loaded');
+            setTimeout(checkDependencies, 500);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional RFQ Management Panel - AS9100D Certified CNC Machining Services for Aerospace, Defense, and Medical Industries">
+    <meta name="keywords" content="RFQ panel, quote management, cnc machining quotes, aerospace manufacturing, AS9100D certified">
+    <title>RFQ Management Panel - TobroTech CNC Machining</title>
+    
+    <!-- Fonts - Match Main Page -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons - Match Main Page Version -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cad-viewer.css">
+    <link rel="stylesheet" href="css/rfq-panel.css">
+    
+    <style>
+        /* How It Works Section Styles */
+        .how-it-works-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .how-it-works-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .explanation-text h2 {
+            color: var(--title-color);
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .explanation-text h2 i {
+            color: var(--primary-color);
+        }
+        
+        .process-steps {
+            margin-bottom: 2rem;
+        }
+        
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            color: var(--title-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .step-content p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .data-privacy-note {
+            display: flex;
+            gap: 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+        
+        .privacy-icon {
+            color: var(--success-color);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .privacy-text {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .contact-options {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .primary-option {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .fallback-option {
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .email-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .email-link:hover {
+            text-decoration: underline;
+        }
+        
+
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .how-it-works-section {
+                padding: 2rem 0;
+            }
+            
+            .step {
+                align-items: center;
+            }
+            
+            .step-content h4 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header will be injected by header-component.js -->
+
+    <!-- Trust Indicators Section -->
+    <section class="trust-section">
+        <div class="trust-indicators">
+            <div class="trust-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>AS9100D Certified</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-link"></i>
+                <span>Full Traceability</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-clock"></i>
+                <span>24/7 Quality Control</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-truck"></i>
+                <span>On-Time Delivery</span>
+            </div>
+            <div class="trust-item">
+                <i class="fas fa-star"></i>
+                <span>Aerospace Partners</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Header -->
+    <header class="panel-header">
+        <div class="header-content">
+            <span class="panel-eyebrow">OUR EXPERTISE</span>
+            <h1 class="panel-headline">RFQ Management Panel</h1>
+            <p class="panel-subheadline">Professional quote management with AS9100D quality standards</p>
+        </div>
+    </header>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section">
+        <div class="container">
+            <div class="how-it-works-content">
+                <div class="explanation-text">
+                    <h2><i class="fas fa-info-circle"></i> How This System Works</h2>
+                    <div class="process-steps">
+                        <div class="step">
+                            <div class="step-icon">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>1. Upload & Specify</h4>
+                                <p>Upload your CAD files and specify requirements. Everything is saved securely in your browser.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>2. Submit RFQ</h4>
+                                <p>When ready, submit your RFQ. We'll receive all your files and specifications instantly via email.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="step-content">
+                                <h4>3. Get Your Quote</h4>
+                                <p>Our team reviews your requirements and provides a detailed quote within 24-48 hours.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-privacy-note">
+                        <div class="privacy-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="privacy-text">
+                            <strong>Your Data is Private:</strong> All files and specifications are stored locally in your browser until you submit. Nothing is uploaded to our servers until you're ready.
+                        </div>
+                    </div>
+
+                    <div class="contact-options">
+                        <div class="primary-option">
+                            <p><strong>Ready to start?</strong> Create your first RFQ above, or</p>
+                        </div>
+                        <div class="fallback-option">
+                            <p><i class="fas fa-envelope"></i> <strong>Prefer email?</strong> Send your files directly to: 
+                                <a href="mailto:sales@tobrotech.com" class="email-link">sales@tobrotech.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Panel Container -->
+    <div class="panel-container">
+        <!-- Main Content - Multi-level view -->
+        <main class="panel-content">
+            
+            <!-- Level 1: RFQ List View -->
+            <section class="content-view active" id="rfq-list-view">
+                <div class="view-header">
+                    <div class="view-title">
+                        <h2><i class="fas fa-list"></i> My RFQs</h2>
+                        <p>Manage all your request for quotes</p>
+                    </div>
+                    <div class="view-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search RFQs..." id="rfq-search">
+                        </div>
+                        <select class="filter-select" id="status-filter">
+                            <option value="">All Status</option>
+                            <option value="draft">Draft</option>
+                            <option value="submitted">Submitted</option>
+                            <option value="quoted">Quoted</option>
+                            <option value="in-production">In Production</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <button class="btn btn-primary" id="new-rfq-btn">
+                            <i class="fas fa-plus"></i>
+                            New RFQ
+                        </button>
+                    </div>
+                </div>
+
+                <div class="rfq-table-container">
+                    <table class="rfq-table">
+                        <thead>
+                            <tr>
+                                <th>RFQ No.</th>
+                                <th>Status</th>
+                                <th>Ship To</th>
+                                <th>Parts Count</th>
+                                <th>Total Value</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rfq-table-body">
+                            <!-- RFQs will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty state for no RFQs -->
+                <div class="empty-state" id="empty-rfq-state" style="display: none;">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>No RFQs Yet</h3>
+                    <p>Create your first request for quote to get started</p>
+                    <button class="btn btn-primary" onclick="rfqPanel.createNewRFQ()">
+                        <i class="fas fa-plus"></i> Create First RFQ
+                    </button>
+                </div>
+            </section>
+
+            <!-- Level 2: Parts List View -->
+            <section class="content-view" id="parts-list-view">
+                <div class="view-header">
+                    <div class="view-title">
+                        <button class="back-btn" onclick="rfqPanel.showRFQList()">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h2 id="current-rfq-title">RFQ #001 - Parts</h2>
+                            <p id="current-rfq-status">Status: Draft • 3 Parts • Updated 2 hours ago</p>
+                        </div>
+                    </div>
+                    <div class="view-actions">
+                        <button class="btn btn-secondary" id="add-part-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Part
+                        </button>
+                        <button class="btn btn-primary btn-large" id="submit-rfq-btn" title="Submit your RFQ and files directly to our team" style="padding: 1rem 2rem; font-size: 1.1rem; font-weight: 600;">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit RFQ
+                        </button>
+                    </div>
+                </div>
+
+                <div class="parts-grid" id="parts-grid">
+                    <!-- Parts will be populated here -->
+                </div>
+
+                <!-- RFQ Summary Card -->
+                <div class="rfq-summary-card">
+                    <h3>RFQ Summary</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <label>Total Parts:</label>
+                            <span id="total-parts-count">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>Estimated Value:</label>
+                            <span id="estimated-value">$0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>Lead Time:</label>
+                            <span id="max-lead-time">TBD</span>
+                        </div>
+                        <div class="summary-item">
+                            <label>Delivery Address:</label>
+                            <span id="delivery-address">Not specified</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level 3: Part Details View -->
+            <section class="content-view" id="part-details-view">
+                <div class="view-header">
+                    <div class="view-title">
+                        <button class="back-btn" onclick="rfqPanel.showPartsList()">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h2 id="current-part-title">Part #001 - Specifications</h2>
+                            <p id="current-part-info">Aluminum Housing • Qty: 10 • Lead Time: 2 weeks</p>
+                        </div>
+                    </div>
+                    <div class="view-actions">
+                        <button class="btn btn-secondary" id="duplicate-part-btn">
+                            <i class="fas fa-copy"></i>
+                            Duplicate
+                        </button>
+                        <button class="btn btn-danger" id="delete-part-btn">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+
+                <div class="part-details-container">
+                    <!-- Left Column: CAD & Files -->
+                    <div class="part-files-section">
+                        <div class="section-card">
+                            <h3><i class="fas fa-cube"></i> CAD Models & Drawings</h3>
+                            
+                            <!-- File Upload Area -->
+                            <div class="file-upload-area" id="part-file-upload">
+                                <div class="upload-zone">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Drag & drop CAD files or drawings</p>
+                                    <small>STEP, IGES, STL, PDF, DWG</small>
+                                    <button type="button" class="btn btn-primary" style="margin-top: 0.5rem;" onclick="document.getElementById('part-file-input').click()">
+                                        <i class="fas fa-folder-open"></i> Browse Files
+                                    </button>
+                                </div>
+                                <input type="file" id="part-file-input" multiple accept=".step,.stp,.iges,.igs,.stl,.pdf,.dwg,.dxf" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
+                            </div>
+
+                            <!-- Uploaded Files List -->
+                            <div class="uploaded-files" id="part-uploaded-files">
+                                <!-- Files will be shown here -->
+                            </div>
+                            
+                            <!-- Storage Status -->
+                            <div class="storage-status" id="storage-status" style="display: none; font-size: 0.8rem; color: var(--text-light); text-align: center; padding: 0.5rem; border-top: 1px solid var(--border-color); margin-top: 0.5rem;">
+                                <i class="fas fa-database"></i>
+                                Storage: <span id="storage-used">0 MB</span> / <span id="storage-total">0 MB</span>
+                            </div>
+
+                            <!-- CAD Viewer -->
+                            <div class="cad-viewer-container" id="cad-viewer-container" style="display: none;">
+                                <div class="viewer-toolbar">
+                                    <div class="toolbar-group">
+                                        <button class="toolbar-btn" id="fit-view" title="Fit to View">
+                                            <i class="fas fa-expand-arrows-alt"></i>
+                                        </button>
+                                        <button class="toolbar-btn" id="measure-tool" title="Measurement Tool">
+                                            <i class="fas fa-ruler"></i>
+                                        </button>
+                                        <button class="toolbar-btn" id="section-tool" title="Section View">
+                                            <i class="fas fa-cut"></i>
+                                        </button>
+                                    </div>
+                                    <div class="toolbar-group">
+                                        <select id="view-mode" class="toolbar-select">
+                                            <option value="shaded">Shaded</option>
+                                            <option value="wireframe">Wireframe</option>
+                                            <option value="hidden-line">Hidden Line</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="cad-viewer" id="cad-viewer">
+                                    <div class="viewer-placeholder">
+                                        <i class="fas fa-cube"></i>
+                                        <p>CAD Viewer will appear here after file upload</p>
+                                    </div>
+                                </div>
+                                <div class="measurement-panel" id="measurement-panel" style="display: none;">
+                                    <h4>Measurements</h4>
+                                    <div class="measurement-list" id="measurement-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Specifications -->
+                    <div class="part-specs-section">
+                        <div class="section-card">
+                            <h3><i class="fas fa-cogs"></i> Part Specifications</h3>
+                            
+                            <form class="specs-form" id="part-specs-form">
+                                <!-- Basic Info -->
+                                <div class="form-section">
+                                    <h4>Basic Information</h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="part-name">Part Name</label>
+                                            <input type="text" id="part-name" class="form-control" placeholder="e.g., Aluminum Housing">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="part-description">Description</label>
+                                            <input type="text" id="part-description" class="form-control" placeholder="Brief description">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quantity & Timeline -->
+                                <div class="form-section">
+                                    <h4>Quantity & Timeline</h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="part-quantity">Quantity</label>
+                                            <input type="number" id="part-quantity" class="form-control" value="1" min="1">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="required-delivery">Required Delivery</label>
+                                            <input type="date" id="required-delivery" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="priority-level">Priority Level</label>
+                                            <select id="priority-level" class="form-control">
+                                                <option value="standard">Standard (2-3 weeks)</option>
+                                                <option value="expedited">Expedited (1-2 weeks)</option>
+                                                <option value="rush">Rush (3-5 days)</option>
+                                                <option value="emergency">Emergency (24-48 hours)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Material & Specifications -->
+                                <div class="form-section">
+                                    <h4>Material & Properties</h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="material-type">Material</label>
+                                            <select id="material-type" class="form-control">
+                                                <option value="">Select material...</option>
+                                                <optgroup label="Aluminum Alloys">
+                                                    <option value="aluminum-6061">Aluminum 6061-T6</option>
+                                                    <option value="aluminum-7075">Aluminum 7075-T651</option>
+                                                    <option value="aluminum-2024">Aluminum 2024-T3</option>
+                                                    <option value="aluminum-5052">Aluminum 5052-H32</option>
+                                                    <option value="aluminum-6063">Aluminum 6063-T6</option>
+                                                    <option value="aluminum-7050">Aluminum 7050-T7451</option>
+                                                </optgroup>
+                                                <optgroup label="Stainless Steel">
+                                                    <option value="stainless-316">316 Stainless Steel</option>
+                                                    <option value="stainless-304">304 Stainless Steel</option>
+                                                    <option value="stainless-17-4">17-4 PH Stainless</option>
+                                                    <option value="stainless-321">321 Stainless Steel</option>
+                                                    <option value="stainless-410">410 Stainless Steel</option>
+                                                    <option value="stainless-416">416 Stainless Steel</option>
+                                                </optgroup>
+                                                <optgroup label="Carbon Steel">
+                                                    <option value="carbon-1018">1018 Carbon Steel</option>
+                                                    <option value="carbon-1045">1045 Carbon Steel</option>
+                                                    <option value="carbon-4140">4140 Carbon Steel</option>
+                                                    <option value="carbon-4340">4340 Carbon Steel</option>
+                                                    <option value="carbon-1084">1084 Carbon Steel</option>
+                                                    <option value="carbon-a36">A36 Carbon Steel</option>
+                                                </optgroup>
+                                                <optgroup label="Engineering Plastics">
+                                                    <option value="plastic-delrin-acetal">Delrin (Acetal/POM)</option>
+                                                    <option value="plastic-peek">PEEK</option>
+                                                    <option value="plastic-pei-ultem">PEI (Ultem)</option>
+                                                    <option value="plastic-abs">ABS</option>
+                                                    <option value="plastic-nylon-6">Nylon 6 (PA6)</option>
+                                                    <option value="plastic-nylon-66">Nylon 6/6 (PA66)</option>
+                                                    <option value="plastic-polycarbonate">Polycarbonate (PC)</option>
+                                                    <option value="plastic-ptfe-teflon">PTFE (Teflon)</option>
+                                                    <option value="plastic-hdpe">HDPE</option>
+                                                    <option value="plastic-uhmw-pe">UHMW-PE</option>
+                                                    <option value="plastic-pps">PPS (Polyphenylene Sulfide)</option>
+                                                </optgroup>
+                                                <optgroup label="Specialty Alloys">
+                                                    <option value="titanium-grade2">Titanium Grade 2</option>
+                                                    <option value="titanium-grade5">Titanium Grade 5 (Ti-6Al-4V)</option>
+                                                    <option value="inconel-718">Inconel 718</option>
+                                                    <option value="inconel-625">Inconel 625</option>
+                                                    <option value="hastelloy-c276">Hastelloy C276</option>
+                                                    <option value="brass-360">Brass 360</option>
+                                                    <option value="copper-101">Copper 101</option>
+                                                    <option value="bronze-932">Bronze 932</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="material-condition">Material Condition</label>
+                                            <select id="material-condition" class="form-control">
+                                                <option value="">Select condition...</option>
+                                                <option value="annealed">Annealed</option>
+                                                <option value="as-machined">As Machined</option>
+                                                <option value="heat-treated">Heat Treated</option>
+                                                <option value="stress-relieved">Stress Relieved</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tolerances -->
+                                <div class="form-section">
+                                    <h4>Tolerances & Quality</h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="tolerance-unit">Tolerance Unit</label>
+                                            <select id="tolerance-unit" class="form-control">
+                                                <option value="inches">Inches</option>
+                                                <option value="mm">Millimeters (mm)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="general-tolerance">General Tolerance</label>
+                                            <select id="general-tolerance" class="form-control">
+                                                <optgroup label="Inches" id="tolerance-inches">
+                                                    <option value="standard-in">Standard (±0.005")</option>
+                                                    <option value="tight-in">Tight (±0.002")</option>
+                                                    <option value="precision-in">Precision (±0.001")</option>
+                                                    <option value="super-precision-in">Super Precision (±0.0005")</option>
+                                                </optgroup>
+                                                <optgroup label="Millimeters" id="tolerance-mm" style="display: none;">
+                                                    <option value="standard-mm">Standard (±0.13 mm)</option>
+                                                    <option value="tight-mm">Tight (±0.05 mm)</option>
+                                                    <option value="precision-mm">Precision (±0.025 mm)</option>
+                                                    <option value="super-precision-mm">Super Precision (±0.013 mm)</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="critical-dimensions">Critical Dimensions</label>
+                                            <textarea id="critical-dimensions" class="form-control" rows="2" 
+                                                placeholder="Specify any critical dimensions with special tolerances..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Surface Finish -->
+                                <div class="form-section">
+                                    <h4>Surface Finish & Coating</h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="surface-finish">Surface Finish</label>
+                                            <select id="surface-finish" class="form-control">
+                                                <option value="standard">Standard (125 Ra)</option>
+                                                <option value="smooth">Smooth (63 Ra)</option>
+                                                <option value="fine">Fine (32 Ra)</option>
+                                                <option value="polished">Polished (16 Ra)</option>
+                                                <option value="mirror">Mirror (8 Ra)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="coating-finish">Coating/Finish</label>
+                                            <select id="coating-finish" class="form-control">
+                                                <option value="">No coating</option>
+                                                <option value="anodize-clear">Clear Anodize</option>
+                                                <option value="anodize-black">Black Anodize</option>
+                                                <option value="anodize-colored">Colored Anodize</option>
+                                                <option value="powder-coat">Powder Coating</option>
+                                                <option value="plating">Plating (specify)</option>
+                                                <option value="passivation">Passivation</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quality Requirements -->
+                                <div class="form-section">
+                                    <h4>Quality & Certification</h4>
+                                    <div class="checkbox-grid">
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="as9100d-required">
+                                            <span class="checkmark"></span>
+                                            <span>AS9100D Documentation</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="material-certs">
+                                            <span class="checkmark"></span>
+                                            <span>Material Certifications</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="inspection-report">
+                                            <span class="checkmark"></span>
+                                            <span>Inspection Report</span>
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="checkbox" id="first-article">
+                                            <span class="checkmark"></span>
+                                            <span>First Article Inspection</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Special Instructions -->
+                                <div class="form-section">
+                                    <h4>Special Instructions</h4>
+                                    <div class="form-group">
+                                        <label for="special-instructions">Additional Notes</label>
+                                        <textarea id="special-instructions" class="form-control" rows="3" 
+                                            placeholder="Any special instructions, packaging requirements, or notes..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Form Actions -->
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary" onclick="rfqPanel.showPartsList()">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        Save Part Specifications
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- New RFQ Modal -->
+    <div class="modal" id="new-rfq-modal" style="display: none;">
+        <div class="modal-overlay" onclick="rfqPanel.closeNewRFQModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New RFQ</h3>
+                <button class="modal-close" onclick="rfqPanel.closeNewRFQModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="new-rfq-form">
+                    <div class="form-group">
+                        <label for="customer-name">Your Name *</label>
+                        <input type="text" id="customer-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-email">Email Address *</label>
+                        <input type="email" id="customer-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company-name">Company Name</label>
+                        <input type="text" id="company-name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-name">Project Name</label>
+                        <input type="text" id="project-name" class="form-control" placeholder="e.g., Aerospace Housing Project">
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-address">Shipping Address</label>
+                        <textarea id="shipping-address" class="form-control" rows="3" 
+                            placeholder="Complete shipping address..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="rfqPanel.closeNewRFQModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="rfqPanel.createRFQ()">Create RFQ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer section">
+        <div class="container">
+            <div class="footer__container grid">
+                <div class="footer__content">
+                    <a href="index.html" class="footer__logo">TobroTech</a>
+                    <span class="footer__description">
+                        Precision CNC machining for critical industries with uncompromising quality and reliability.
+                    </span>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link">
+                            <i class="ri-linkedin-box-fill"></i>
+                        </a>
+                        <a href="#" class="footer__social-link">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Services</h3>
+                    <ul class="footer__list">
+                        <li><a href="index.html#services" class="footer__link">CNC Machining</a></li>
+                        <li><a href="index.html#services" class="footer__link">Prototyping</a></li>
+                        <li><a href="index.html#services" class="footer__link">Production</a></li>
+                        <li><a href="index.html#services" class="footer__link">Quality Control</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Materials</h3>
+                    <ul class="footer__list">
+                        <li><a href="materials/aluminum.html" class="footer__link">Aluminum Alloys</a></li>
+                        <li><a href="materials.html" class="footer__link">Stainless Steel</a></li>
+                        <li><a href="materials.html" class="footer__link">Titanium</a></li>
+                        <li><a href="materials.html" class="footer__link">Engineering Plastics</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Company</h3>
+                    <ul class="footer__list">
+                        <li><a href="index.html#about" class="footer__link">About Us</a></li>
+                        <li><a href="index.html#contact" class="footer__link">Contact</a></li>
+                        <li><a href="rfq-panel.html" class="footer__link">Get Quote</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <span class="footer__copy">
+                    &#169; 2024 TobroTech. All rights reserved.
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCROLL UP ===== -->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-line"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+    
+    <!-- EmailJS for RFQ submission -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="js/emailjs-config.js"></script>
+    
+    <script src="js/header-component.js"></script>
+    <script src="js/occt-import-integration.js"></script>
+    <script src="js/cad-viewer.js"></script>
+    <script src="js/file-storage.js"></script>
+    <script src="js/rfq-panel-system.js"></script>
+    <!-- Comment out rfq-panel-main.js temporarily to avoid conflicts -->
+    <!-- <script src="js/rfq-panel-main.js"></script> -->
+</body>
+</html> 

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TobroTech Admin Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #e74c3c);
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .logo p {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin: 5px 0 0 0;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            background: #fafafa;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .login-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #e74c3c;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #f8d7da;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message {
+            background: #e8f5e8;
+            color: #27ae60;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            font-size: 14px;
+            display: none;
+        }
+
+        .security-info {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .security-info p {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .attempts-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #ffeaa7;
+            font-size: 14px;
+            display: none;
+        }
+
+        .lockout-warning {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #f1b0b7;
+            font-size: 14px;
+            display: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 0 10px;
+            }
+            
+            .logo h1 {
+                font-size: 28px;
+            }
+        }
+
+        /* Hide browser password suggestions */
+        input[type="password"]::-webkit-credentials-auto-fill-button {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>TobroTech</h1>
+            <p>Admin Panel Access</p>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+        <div id="attempts-warning" class="attempts-warning"></div>
+        <div id="lockout-warning" class="lockout-warning"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required 
+                    autocomplete="current-password"
+                    placeholder="Enter admin password"
+                >
+            </div>
+
+            <button type="submit" class="login-button" id="login-btn">
+                <span id="login-text">Access Admin Panel</span>
+                <div id="loading-spinner" class="loading-spinner"></div>
+            </button>
+        </form>
+
+        <div class="security-info">
+            <p>🔒 This is a secure admin area. All login attempts are monitored and logged for security purposes.</p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        class LoginManager {
+            constructor() {
+                this.form = document.getElementById('login-form');
+                this.passwordInput = document.getElementById('password');
+                this.loginBtn = document.getElementById('login-btn');
+                this.loginText = document.getElementById('login-text');
+                this.loadingSpinner = document.getElementById('loading-spinner');
+                
+                this.init();
+            }
+
+            init() {
+                // Check if already authenticated
+                if (window.adminAuth.isAuthenticated()) {
+                    this.redirectToAdmin();
+                    return;
+                }
+
+                // Check for lockout
+                this.checkLockoutStatus();
+
+                // Set up form handling
+                this.form.addEventListener('submit', (e) => this.handleLogin(e));
+                
+                // Focus password field
+                this.passwordInput.focus();
+
+                // Handle Enter key
+                this.passwordInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.handleLogin(e);
+                    }
+                });
+
+                // Check for failed attempts warning
+                this.checkFailedAttempts();
+
+                window.adminAuth.logSecurityEvent('login_page_accessed');
+            }
+
+            async handleLogin(e) {
+                e.preventDefault();
+                
+                const password = this.passwordInput.value.trim();
+                if (!password) {
+                    this.showError('Please enter a password');
+                    return;
+                }
+
+                this.setLoading(true);
+                this.clearMessages();
+
+                try {
+                    await window.adminAuth.authenticate(password);
+                    
+                    this.showSuccess('Authentication successful! Redirecting...');
+                    window.adminAuth.logSecurityEvent('login_success');
+                    
+                    // Redirect after short delay
+                    setTimeout(() => {
+                        this.redirectToAdmin();
+                    }, 1000);
+
+                } catch (error) {
+                    this.showError(error.message);
+                    window.adminAuth.logSecurityEvent('login_failed', { 
+                        error: error.message,
+                        attempts: window.adminAuth.getFailedAttempts()
+                    });
+                    
+                    // Clear password field
+                    this.passwordInput.value = '';
+                    this.passwordInput.focus();
+                    
+                    // Update UI based on attempts
+                    this.checkFailedAttempts();
+                    this.checkLockoutStatus();
+                    
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+
+            setLoading(loading) {
+                this.loginBtn.disabled = loading;
+                if (loading) {
+                    this.loginText.style.display = 'none';
+                    this.loadingSpinner.style.display = 'block';
+                } else {
+                    this.loginText.style.display = 'block';
+                    this.loadingSpinner.style.display = 'none';
+                }
+            }
+
+            showError(message) {
+                const errorEl = document.getElementById('error-message');
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+            }
+
+            showSuccess(message) {
+                const successEl = document.getElementById('success-message');
+                successEl.textContent = message;
+                successEl.style.display = 'block';
+            }
+
+            clearMessages() {
+                document.getElementById('error-message').style.display = 'none';
+                document.getElementById('success-message').style.display = 'none';
+                document.getElementById('attempts-warning').style.display = 'none';
+                document.getElementById('lockout-warning').style.display = 'none';
+            }
+
+            checkFailedAttempts() {
+                const attempts = window.adminAuth.getFailedAttempts();
+                const maxAttempts = 3;
+                
+                if (attempts > 0 && attempts < maxAttempts) {
+                    const remaining = maxAttempts - attempts;
+                    const warningEl = document.getElementById('attempts-warning');
+                    warningEl.textContent = `⚠️ ${attempts} failed attempt${attempts > 1 ? 's' : ''}. ${remaining} attempt${remaining > 1 ? 's' : ''} remaining.`;
+                    warningEl.style.display = 'block';
+                }
+            }
+
+            checkLockoutStatus() {
+                if (window.adminAuth.isLockedOut()) {
+                    const remaining = window.adminAuth.getLockoutRemaining();
+                    const minutes = Math.ceil(remaining / 60000);
+                    
+                    const lockoutEl = document.getElementById('lockout-warning');
+                    lockoutEl.textContent = `🔒 Account locked due to too many failed attempts. Try again in ${minutes} minute${minutes > 1 ? 's' : ''}.`;
+                    lockoutEl.style.display = 'block';
+                    
+                    this.loginBtn.disabled = true;
+                    this.passwordInput.disabled = true;
+                    
+                    // Auto-refresh when lockout expires
+                    setTimeout(() => {
+                        location.reload();
+                    }, remaining + 1000);
+                }
+            }
+
+            redirectToAdmin() {
+                window.location.href = 'admin-panel.html';
+            }
+        }
+
+        // Initialize login manager when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new LoginManager();
+        });
+
+        // Prevent back button after logout
+        window.addEventListener('popstate', (e) => {
+            if (!window.adminAuth.isAuthenticated()) {
+                history.pushState(null, null, window.location.href);
+            }
+        });
+    </script>
+</body>
+</html> 

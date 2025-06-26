@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - TobroTech RFQ Management</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/rfq-panel.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #334155;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .rfq-processor {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .processor-header {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .file-drop-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            margin: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .file-drop-zone.dragover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .rfq-viewer {
+            display: none;
+            margin: 1rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .rfq-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .part-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .file-card {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        
+        .btn-download {
+            background: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-quote {
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <h1><i class="fas fa-cogs"></i> TobroTech Admin Dashboard</h1>
+            <p>Process RFQ submissions and manage quotes</p>
+        </div>
+
+        <!-- Admin Stats -->
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="total-rfqs">0</div>
+                <div class="stat-label">Total RFQs Processed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pending-rfqs">0</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-files">0</div>
+                <div class="stat-label">Files Processed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avg-value">$0</div>
+                <div class="stat-label">Avg RFQ Value</div>
+            </div>
+        </div>
+
+        <!-- RFQ Processor -->
+        <div class="rfq-processor">
+            <div class="processor-header">
+                <h2><i class="fas fa-upload"></i> RFQ File Processor</h2>
+                <p>Drop RFQ JSON files here to process submissions</p>
+            </div>
+            
+            <div class="file-drop-zone" id="drop-zone">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #9ca3af; margin-bottom: 1rem;"></i>
+                <h3>Drop RFQ Files Here</h3>
+                <p>Drag and drop JSON files from email attachments or exports</p>
+                <input type="file" id="file-input" accept=".json" style="display: none;" multiple>
+                <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+                    <i class="fas fa-folder-open"></i> Browse Files
+                </button>
+            </div>
+
+            <!-- RFQ Viewer -->
+            <div class="rfq-viewer" id="rfq-viewer">
+                <div id="rfq-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class AdminDashboard {
+            constructor() {
+                this.processedRFQs = JSON.parse(localStorage.getItem('admin-processed-rfqs') || '[]');
+                this.init();
+            }
+
+            init() {
+                this.setupDropZone();
+                this.updateStats();
+                this.bindEvents();
+            }
+
+            setupDropZone() {
+                const dropZone = document.getElementById('drop-zone');
+                const fileInput = document.getElementById('file-input');
+
+                dropZone.addEventListener('click', () => fileInput.click());
+                
+                dropZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    dropZone.classList.add('dragover');
+                });
+
+                dropZone.addEventListener('dragleave', () => {
+                    dropZone.classList.remove('dragover');
+                });
+
+                dropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dropZone.classList.remove('dragover');
+                    this.handleFiles(e.dataTransfer.files);
+                });
+
+                fileInput.addEventListener('change', (e) => {
+                    this.handleFiles(e.target.files);
+                });
+            }
+
+            bindEvents() {
+                // Add any additional event listeners here
+            }
+
+            async handleFiles(files) {
+                for (const file of files) {
+                    if (file.type === 'application/json' || file.name.endsWith('.json')) {
+                        try {
+                            const text = await file.text();
+                            const rfqData = JSON.parse(text);
+                            this.processRFQ(rfqData);
+                        } catch (error) {
+                            console.error('Error processing file:', error);
+                            alert(`Error processing ${file.name}: ${error.message}`);
+                        }
+                    }
+                }
+            }
+
+            processRFQ(rfqData) {
+                // Add to processed list
+                this.processedRFQs.unshift({
+                    ...rfqData,
+                    processedAt: new Date().toISOString(),
+                    status: 'pending-review'
+                });
+
+                // Save to localStorage
+                localStorage.setItem('admin-processed-rfqs', JSON.stringify(this.processedRFQs));
+
+                // Display RFQ
+                this.displayRFQ(rfqData);
+                this.updateStats();
+            }
+
+            displayRFQ(rfqData) {
+                const viewer = document.getElementById('rfq-viewer');
+                const content = document.getElementById('rfq-content');
+
+                content.innerHTML = this.generateRFQHTML(rfqData);
+                viewer.style.display = 'block';
+                viewer.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            generateRFQHTML(data) {
+                return `
+                    <div class="rfq-section">
+                        <h3><i class="fas fa-info-circle"></i> RFQ Information</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div><strong>RFQ Number:</strong> ${data.rfq.number}</div>
+                            <div><strong>Customer:</strong> ${data.rfq.customer.name}</div>
+                            <div><strong>Email:</strong> ${data.rfq.customer.email}</div>
+                            <div><strong>Company:</strong> ${data.rfq.customer.company || 'N/A'}</div>
+                            <div><strong>Project:</strong> ${data.rfq.project.name}</div>
+                            <div><strong>Submitted:</strong> ${new Date(data.rfq.submittedAt).toLocaleDateString()}</div>
+                        </div>
+                        ${data.rfq.shipping.address ? `<div style="margin-top: 1rem;"><strong>Shipping:</strong> ${data.rfq.shipping.address}</div>` : ''}
+                    </div>
+
+                    <div class="rfq-section">
+                        <h3><i class="fas fa-chart-bar"></i> Summary</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                            <div><strong>Total Parts:</strong> ${data.summary.totalParts}</div>
+                            <div><strong>Estimated Value:</strong> $${data.summary.estimatedValue.toFixed(2)}</div>
+                            <div><strong>CAD Files:</strong> ${data.summary.hasCADFiles ? 'Yes' : 'No'}</div>
+                            <div><strong>Total File Size:</strong> ${this.formatFileSize(data.summary.totalFileSize)}</div>
+                        </div>
+                    </div>
+
+                    <div class="rfq-section">
+                        <h3><i class="fas fa-cogs"></i> Parts (${data.parts.length})</h3>
+                        ${data.parts.map(part => this.generatePartHTML(part)).join('')}
+                    </div>
+
+                    ${data.files.length > 0 ? `
+                        <div class="rfq-section">
+                            <h3><i class="fas fa-file"></i> Files (${data.files.length})</h3>
+                            <div class="file-list">
+                                ${data.files.map(file => this.generateFileHTML(file)).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="action-buttons">
+                        <button class="btn-download" onclick="adminDashboard.downloadRFQPackage('${data.rfq.number}')">
+                            <i class="fas fa-download"></i> Download Package
+                        </button>
+                        <button class="btn-quote" onclick="adminDashboard.createQuote('${data.rfq.number}')">
+                            <i class="fas fa-calculator"></i> Create Quote
+                        </button>
+                        <button class="btn-download" onclick="adminDashboard.downloadFiles('${data.rfq.number}')">
+                            <i class="fas fa-file-archive"></i> Download All Files
+                        </button>
+                    </div>
+                `;
+            }
+
+            generatePartHTML(part) {
+                return `
+                    <div class="part-card">
+                        <h4>${part.number} - ${part.name}</h4>
+                        ${part.description ? `<p>${part.description}</p>` : ''}
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; font-size: 0.9rem;">
+                            <div><strong>Quantity:</strong> ${part.specifications.quantity}</div>
+                            <div><strong>Material:</strong> ${part.specifications.material || 'Not specified'}</div>
+                            <div><strong>Tolerance:</strong> ${part.specifications.tolerance}</div>
+                            <div><strong>Surface Finish:</strong> ${part.specifications.surfaceFinish}</div>
+                            <div><strong>Files:</strong> ${part.fileCount}</div>
+                            <div><strong>Status:</strong> <span style="color: ${part.status === 'configured' ? '#10b981' : '#f59e0b'}">${part.status}</span></div>
+                        </div>
+                        ${part.specifications.specialInstructions ? 
+                            `<div style="margin-top: 0.5rem;"><strong>Special Instructions:</strong> ${part.specifications.specialInstructions}</div>` : ''}
+                    </div>
+                `;
+            }
+
+            generateFileHTML(file) {
+                const icon = this.getFileIcon(file.type);
+                return `
+                    <div class="file-card">
+                        <i class="${icon}" style="font-size: 2rem; color: #3b82f6; margin-bottom: 0.5rem;"></i>
+                        <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;">${file.name}</h4>
+                        <div style="font-size: 0.8rem; color: #6b7280;">
+                            <div>Part: ${file.partNumber}</div>
+                            <div>Size: ${this.formatFileSize(file.size)}</div>
+                            <div>Type: ${file.type}</div>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.8rem;" 
+                                onclick="adminDashboard.downloadFile('${file.id}', '${file.name}')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                `;
+            }
+
+            getFileIcon(type) {
+                if (type.includes('application')) return 'fas fa-file-code';
+                if (type.includes('image')) return 'fas fa-image';
+                if (type.includes('pdf')) return 'fas fa-file-pdf';
+                return 'fas fa-file';
+            }
+
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            downloadFile(fileId, fileName) {
+                // Find the file in current RFQ
+                const rfqData = this.getCurrentRFQData();
+                const file = rfqData.files.find(f => f.id === fileId);
+                
+                if (file && file.data) {
+                    // Convert base64 back to blob and download
+                    const byteCharacters = atob(file.data);
+                    const byteNumbers = new Array(byteCharacters.length);
+                    for (let i = 0; i < byteCharacters.length; i++) {
+                        byteNumbers[i] = byteCharacters.charCodeAt(i);
+                    }
+                    const byteArray = new Uint8Array(byteNumbers);
+                    const blob = new Blob([byteArray], { type: file.type });
+                    
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                } else {
+                    alert('File data not available');
+                }
+            }
+
+            downloadRFQPackage(rfqNumber) {
+                const rfqData = this.getCurrentRFQData();
+                const blob = new Blob([JSON.stringify(rfqData, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${rfqNumber}-complete-package.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            downloadFiles(rfqNumber) {
+                const rfqData = this.getCurrentRFQData();
+                
+                // Create a zip-like structure (simplified as multiple downloads)
+                rfqData.files.forEach((file, index) => {
+                    setTimeout(() => {
+                        this.downloadFile(file.id, file.name);
+                    }, index * 500); // Stagger downloads
+                });
+            }
+
+            createQuote(rfqNumber) {
+                // Here you would integrate with your quoting system
+                alert(`Creating quote for RFQ ${rfqNumber}. This would integrate with your pricing system.`);
+            }
+
+            getCurrentRFQData() {
+                // This is a simplified version - in a real system you'd track which RFQ is currently displayed
+                return this.processedRFQs[0];
+            }
+
+            updateStats() {
+                document.getElementById('total-rfqs').textContent = this.processedRFQs.length;
+                document.getElementById('pending-rfqs').textContent = 
+                    this.processedRFQs.filter(rfq => rfq.status === 'pending-review').length;
+                
+                const totalFiles = this.processedRFQs.reduce((sum, rfq) => sum + (rfq.files?.length || 0), 0);
+                document.getElementById('total-files').textContent = totalFiles;
+                
+                const avgValue = this.processedRFQs.length > 0 ? 
+                    this.processedRFQs.reduce((sum, rfq) => sum + (rfq.summary?.estimatedValue || 0), 0) / this.processedRFQs.length : 0;
+                document.getElementById('avg-value').textContent = `$${avgValue.toFixed(0)}`;
+            }
+        }
+
+        // Initialize admin dashboard
+        const adminDashboard = new AdminDashboard();
+    </script>
+</body>
+</html> 

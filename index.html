@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AS9100D Certified CNC Machining Services - Precision 5-axis machining, CNC turning, milling for aerospace, defense, and medical industries">
+    <meta name="keywords" content="cnc machining, 5 axis machining, aerospace cnc machining, accurate machining, aluminum machining, AS9100D certified">
+    <title>AS9100D Certified CNC Machining | Precision Manufacturing Services</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cad-viewer.css">
+</head>
+<body>
+    <!-- Header will be injected by header-component.js -->
+
+    <!-- Hero Section with Video Banner -->
+    <section class="hero" id="home">
+        <div class="hero__video-container">
+            <video class="hero__video" autoplay muted loop playsinline>
+                <source src="assets/videos/TobroTechBannerVideo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero__overlay"></div>
+        </div>
+        
+        <div class="hero__content container">
+            <div class="hero__data">
+                <div class="hero__badge">
+                    <i class="fas fa-certificate"></i>
+                    AS9100D Certified Excellence
+                </div>
+                <h1 class="hero__title">
+                    Precision <span class="text-gradient">CNC Machining</span><br>
+                    for Critical Industries
+                </h1>
+                <p class="hero__description">
+                    Advanced 5-axis machining, CNC turning, and milling services for aerospace, defense, and medical applications. Expert in <a href="materials/aluminum.html" style="color: #60a5fa;">aluminum</a>, <a href="materials/stainless-steel.html" style="color: #60a5fa;">stainless steel</a>, <a href="materials/titanium.html" style="color: #60a5fa;">titanium</a>, and <a href="materials/superalloys.html" style="color: #60a5fa;">superalloys</a>. Quality-certified manufacturing with traceability and precision.
+                </p>
+                
+                <div class="hero__stats">
+                    <div class="stat">
+                        <div class="stat__number">15+</div>
+                        <div class="stat__label">Years Experience</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat__number">±0.0001"</div>
+                        <div class="stat__label">Tolerance Capability</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat__number">500+</div>
+                        <div class="stat__label">Projects Delivered</div>
+                    </div>
+                </div>
+                
+                <div class="hero__cta">
+                    <button class="btn btn--primary btn--large" id="hero-rfq-btn">
+                        <i class="fas fa-rocket"></i>
+                        Start Your Project
+                    </button>
+                    <button class="btn btn--secondary btn--large" id="view-capabilities">
+                        <i class="fas fa-play"></i>
+                        View Capabilities
+                    </button>
+                    <a href="rfq-panel.html" class="btn btn--accent btn--large" style="text-decoration: none; margin-top: 0.5rem;">
+                        <i class="fas fa-tools"></i>
+                        Professional RFQ Panel
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Quick RFQ Card -->
+            <div class="hero__rfq-card">
+                <div class="rfq-quick">
+                    <h3>Quick Quote Request</h3>
+                    <p>Upload your CAD files for instant analysis</p>
+                    <div class="rfq-quick__upload" id="quick-upload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Drag & Drop CAD Files</span>
+                        <small>STEP, IGES, STL, SolidWorks</small>
+                    </div>
+                    <button class="btn btn--accent btn--full" id="open-full-rfq">
+                        <i class="fas fa-plus"></i>
+                        Advanced RFQ Tool
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="hero__scroll">
+            <a href="#services" class="scroll-down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Trust Indicators -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="trust-indicators">
+                <div class="trust-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>AS9100D Certified</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-microscope"></i>
+                    <span>Full Traceability</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-clock"></i>
+                    <span>24/7 Quality Control</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>On-Time Delivery</span>
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-handshake"></i>
+                    <span>Aerospace Partners</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Trust Section -->
+    <section class="client-trust section">
+        <div class="container">
+            <div class="section__header">
+                <span class="section__subtitle">Trusted Partners</span>
+                <h2 class="section__title">Manufactured for Industry Leaders</h2>
+                <p class="section__description">
+                    We proudly manufacture precision components for some of the world's most demanding companies
+                </p>
+            </div>
+            
+            <div class="client-logos">
+                <div class="client-logo-item">
+                    <div class="client-logo-placeholder mercedes">
+                        <i class="fas fa-car"></i>
+                        <span>Mercedes Benz</span>
+                    </div>
+                </div>
+                <div class="client-logo-item">
+                    <div class="client-logo-placeholder vdl">
+                        <i class="fas fa-industry"></i>
+                        <span>VDL Holding</span>
+                    </div>
+                </div>
+                <div class="client-logo-item">
+                    <div class="client-logo-placeholder aerospace">
+                        <i class="fas fa-plane"></i>
+                        <span>Aerospace Leader</span>
+                        <small>(can't share the name because of the NDA)</small>
+                    </div>
+                </div>
+                <div class="client-logo-item">
+                    <div class="client-logo-placeholder defense">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Defense Partner</span>
+                        <small>(can't share the name because of the NDA)</small>
+                    </div>
+                </div>
+                <div class="client-logo-item">
+                    <div class="client-logo-placeholder medical">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Medical Device</span>
+                        <small>(can't share the name because of the NDA)</small>
+                    </div>
+                </div>
+                <div class="client-logo-item">
+                    <div class="client-logo-placeholder energy">
+                        <i class="fas fa-bolt"></i>
+                        <span>Energy Sector</span>
+                        <small>(can't share the name because of the NDA)</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="client-trust-stats">
+                <div class="trust-stat">
+                    <div class="trust-stat__number">98%</div>
+                    <div class="trust-stat__label">Client Retention Rate</div>
+                </div>
+                <div class="trust-stat">
+                    <div class="trust-stat__number">500+</div>
+                    <div class="trust-stat__label">Successful Projects</div>
+                </div>
+                <div class="trust-stat">
+                    <div class="trust-stat__number">15+</div>
+                    <div class="trust-stat__label">Industry Partnerships</div>
+                </div>
+                <div class="trust-stat">
+                    <div class="trust-stat__number">24/7</div>
+                    <div class="trust-stat__label">Quality Assurance</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Overview -->
+    <section class="services section" id="services">
+        <div class="container">
+            <div class="section__header">
+                <span class="section__subtitle">Our Expertise</span>
+                <h2 class="section__title">Advanced Manufacturing Services</h2>
+                <p class="section__description">
+                    Comprehensive CNC machining solutions with AS9100D quality standards
+                </p>
+            </div>
+            
+            <div class="services__grid">
+                <div class="service-card" data-service="5-axis">
+                    <div class="service-card__icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3 class="service-card__title">5-Axis Machining</h3>
+                    <p class="service-card__description">
+                        Complex geometries and tight tolerances with simultaneous 5-axis capabilities
+                    </p>
+                    <ul class="service-card__features">
+                        <li>Simultaneous 5-axis positioning</li>
+                        <li>Complex aerospace components</li>
+                        <li>Reduced setup times</li>
+                        <li>Superior surface finishes</li>
+                    </ul>
+                    <div class="service-card__image">
+                        <img src="assets/images/aerospace3.jpg" alt="5-axis machining">
+                    </div>
+                </div>
+                
+                <div class="service-card" data-service="cnc-turning">
+                    <div class="service-card__icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="service-card__title">CNC Turning</h3>
+                    <p class="service-card__description">
+                        Precision turning for cylindrical and rotational components
+                    </p>
+                    <ul class="service-card__features">
+                        <li>Swiss-style precision</li>
+                        <li>Live tooling capabilities</li>
+                        <li>High-volume production</li>
+                        <li>Medical device quality</li>
+                    </ul>
+                    <div class="service-card__image">
+                        <img src="assets/images/swiss1.jpeg" alt="CNC turning">
+                    </div>
+                </div>
+                
+                <div class="service-card" data-service="cnc-milling">
+                    <div class="service-card__icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3 class="service-card__title">CNC Milling</h3>
+                    <p class="service-card__description">
+                        Multi-axis milling for complex parts and prototypes
+                    </p>
+                    <ul class="service-card__features">
+                        <li>3+2 axis positioning</li>
+                        <li>Large work envelopes</li>
+                        <li>Aluminum to exotic alloys</li>
+                        <li>Rapid prototyping</li>
+                    </ul>
+                    <div class="service-card__image">
+                        <img src="assets/images/Impeller.jpg" alt="CNC milling">
+                    </div>
+                </div>
+                
+                <div class="service-card" data-service="outsourced">
+                    <div class="service-card__icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="service-card__title">Outsourced Services</h3>
+                    <p class="service-card__description">
+                        Complete supply chain with certified partners
+                    </p>
+                    <ul class="service-card__features">
+                        <li>Laser cutting & welding</li>
+                        <li>Anodizing & coating</li>
+                        <li>Heat treatment</li>
+                        <li>Assembly services</li>
+                    </ul>
+                    <div class="service-card__image">
+                        <img src="assets/images/aerospace2.jpeg" alt="Outsourced services">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Work with Us Section -->
+    <section class="work-process section" id="work-process">
+        <div class="container">
+            <div class="section__header">
+                <span class="section__subtitle">Simple Process</span>
+                <h2 class="section__title">How to Work with Us</h2>
+                <p class="section__description">
+                    From concept to delivery, our streamlined process ensures quality and efficiency
+                </p>
+            </div>
+            
+            <div class="process__grid">
+                <div class="process-step" data-step="1">
+                    <div class="process-step__number">01</div>
+                    <div class="process-step__icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h3 class="process-step__title">Upload Your CAD Files</h3>
+                    <p class="process-step__description">
+                        Use our advanced RFQ panel to upload STEP, IGES, STL, or SolidWorks files. Our system automatically analyzes your parts for instant feedback.
+                    </p>
+                    <ul class="process-step__features">
+                        <li>Instant CAD analysis</li>
+                        <li>Automatic measurement</li>
+                        <li>Material recommendations</li>
+                    </ul>
+                </div>
+                
+                <div class="process-step" data-step="2">
+                    <div class="process-step__number">02</div>
+                    <div class="process-step__icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="process-step__title">Specify Requirements</h3>
+                    <p class="process-step__description">
+                        Define materials, tolerances, surface finishes, and delivery requirements through our intelligent specification system.
+                    </p>
+                    <ul class="process-step__features">
+                        <li>Material selection wizard</li>
+                        <li>Tolerance recommendations</li>
+                        <li>Surface finish options</li>
+                    </ul>
+                </div>
+                
+                <div class="process-step" data-step="3">
+                    <div class="process-step__number">03</div>
+                    <div class="process-step__icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="process-step__title">Receive Quote</h3>
+                    <p class="process-step__description">
+                        Get detailed quotes with pricing, lead times, and manufacturing recommendations within 24 hours.
+                    </p>
+                    <ul class="process-step__features">
+                        <li>24-hour quote turnaround</li>
+                        <li>Detailed cost breakdown</li>
+                        <li>Lead time estimates</li>
+                    </ul>
+                </div>
+                
+                <div class="process-step" data-step="4">
+                    <div class="process-step__number">04</div>
+                    <div class="process-step__icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h3 class="process-step__title">Production & Delivery</h3>
+                    <p class="process-step__description">
+                        AS9100D certified manufacturing with full traceability and real-time production updates until delivery.
+                    </p>
+                    <ul class="process-step__features">
+                        <li>Real-time updates</li>
+                        <li>Quality documentation</li>
+                        <li>On-time delivery guarantee</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="process__cta">
+                <a href="rfq-panel.html" class="btn btn--primary btn--large">
+                    <i class="fas fa-rocket"></i>
+                    Start Your Project Now
+                </a>
+                <p class="process__cta-note">
+                    Experience our professional RFQ panel - designed for engineers, by engineers
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RFQ Modal -->
+    <div class="rfq-modal" id="rfq-modal">
+        <div class="rfq-modal__overlay" id="rfq-overlay"></div>
+        <div class="rfq-modal__container">
+            <div class="rfq-modal__header">
+                <h2>Request for Quote - CAD Upload</h2>
+                <button class="rfq-modal__close" id="rfq-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="rfq-modal__content">
+                <div class="rfq-steps">
+                    <div class="step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-title">Upload Files</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-title">Review & Measure</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-title">Specifications</span>
+                    </div>
+                    <div class="step" data-step="4">
+                        <span class="step-number">4</span>
+                        <span class="step-title">Contact Info</span>
+                    </div>
+                </div>
+                
+                <!-- Step 1: File Upload -->
+                <div class="rfq-step" id="step-1">
+                    <!-- Upload Type Selector -->
+                    <div class="upload-type-selector">
+                        <div class="upload-option active" data-type="cad">
+                            <div class="upload-option__icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <h3>CAD Files</h3>
+                            <p>3D models for precision machining</p>
+                            <div class="supported-formats">
+                                <span class="format-tag">STEP</span>
+                                <span class="format-tag">IGES</span>
+                                <span class="format-tag">STL</span>
+                                <span class="format-tag">SolidWorks</span>
+                            </div>
+                        </div>
+                        
+                        <div class="upload-option" data-type="drawings">
+                            <div class="upload-option__icon">
+                                <i class="fas fa-drafting-compass"></i>
+                            </div>
+                            <h3>Technical Drawings</h3>
+                            <p>2D drawings with dimensions & tolerances</p>
+                            <div class="supported-formats">
+                                <span class="format-tag">PDF</span>
+                                <span class="format-tag">DWG</span>
+                                <span class="format-tag">DXF</span>
+                                <span class="format-tag">JPG/PNG</span>
+                            </div>
+                        </div>
+                        
+                        <div class="upload-option" data-type="mixed">
+                            <div class="upload-option__icon">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <h3>Mixed Files</h3>
+                            <p>Both CAD models & technical drawings</p>
+                            <div class="supported-formats">
+                                <span class="format-tag">All Formats</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="upload-area" id="file-upload-area">
+                        <div class="upload-area__content">
+                            <i class="fas fa-cloud-upload-alt upload-area__icon"></i>
+                            <h3 id="upload-title">Upload Your CAD Files</h3>
+                            <p id="upload-description">Drag and drop files here or click to browse</p>
+                            <div class="current-formats" id="current-formats">
+                                <span class="format-tag">STEP</span>
+                                <span class="format-tag">IGES</span>
+                                <span class="format-tag">STL</span>
+                                <span class="format-tag">SolidWorks</span>
+                                <span class="format-tag">DWG</span>
+                            </div>
+                            <input type="file" id="file-input" multiple accept=".step,.stp,.iges,.igs,.stl,.dwg,.solidworks,.x_t,.x_b,.pdf,.dxf,.jpg,.jpeg,.png">
+                        </div>
+                    </div>
+                    
+                    <div class="uploaded-files" id="uploaded-files" style="display: none;">
+                        <h4>Uploaded Files</h4>
+                        <div class="file-list" id="file-list"></div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: CAD Viewer -->
+                <div class="rfq-step" id="step-2" style="display: none;">
+                    <div class="cad-viewer-container">
+                        <div class="viewer-toolbar">
+                            <div class="toolbar-group">
+                                <button class="toolbar-btn" id="fit-view" title="Fit to View">
+                                    <i class="fas fa-expand-arrows-alt"></i>
+                                </button>
+                                <button class="toolbar-btn" id="measure-tool" title="Measurement Tool">
+                                    <i class="fas fa-ruler"></i>
+                                </button>
+                                <button class="toolbar-btn" id="section-tool" title="Section View">
+                                    <i class="fas fa-cut"></i>
+                                </button>
+                            </div>
+                            <div class="toolbar-group">
+                                <select id="view-mode" class="toolbar-select">
+                                    <option value="shaded">Shaded</option>
+                                    <option value="wireframe">Wireframe</option>
+                                    <option value="hidden-line">Hidden Line</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="cad-viewer" id="cad-viewer">
+                            <div class="viewer-placeholder">
+                                <i class="fas fa-cube"></i>
+                                <p>CAD Viewer will appear here after file upload</p>
+                            </div>
+                        </div>
+                        <div class="measurement-panel" id="measurement-panel" style="display: none;">
+                            <h4>Measurements</h4>
+                            <div class="measurement-list" id="measurement-list"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Specifications -->
+                <div class="rfq-step" id="step-3" style="display: none;">
+                    <div class="specifications-container">
+                        <!-- Global Settings -->
+                        <div class="global-specs">
+                            <h3><i class="fas fa-globe"></i> Project Settings</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="project-delivery-date">Required Delivery Date</label>
+                                    <input type="date" id="project-delivery-date" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="project-priority">Priority Level</label>
+                                    <select id="project-priority" class="form-control">
+                                        <option value="standard">Standard (2-3 weeks)</option>
+                                        <option value="expedited">Expedited (1-2 weeks)</option>
+                                        <option value="rush">Rush (3-5 days)</option>
+                                        <option value="emergency">Emergency (24-48 hours)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="bulk-actions">
+                                <button type="button" class="btn btn--secondary" id="apply-to-all-material">
+                                    <i class="fas fa-copy"></i> Apply Same Material to All Parts
+                                </button>
+                                <button type="button" class="btn btn--secondary" id="apply-to-all-tolerance">
+                                    <i class="fas fa-ruler"></i> Apply Same Tolerance to All Parts
+                                </button>
+                                <button type="button" class="btn btn--secondary" id="apply-to-all-finish">
+                                    <i class="fas fa-palette"></i> Apply Same Finish to All Parts
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Individual Part Specifications -->
+                        <div class="parts-specifications" id="parts-specifications">
+                            <!-- Part specification cards will be dynamically generated here -->
+                        </div>
+
+                        <!-- Global Notes -->
+                        <div class="global-notes">
+                            <div class="form-group">
+                                <label for="project-special-requirements">
+                                    <i class="fas fa-sticky-note"></i> Project Notes & Special Requirements
+                                </label>
+                                <textarea id="project-special-requirements" class="form-control" rows="4" 
+                                    placeholder="Any special machining requirements, assembly instructions, certifications needed, or additional specifications that apply to the entire project..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Contact Information -->
+                <div class="rfq-step" id="step-4" style="display: none;">
+                    <div class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name">Full Name *</label>
+                                <input type="text" id="contact-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email Address *</label>
+                                <input type="email" id="contact-email" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-phone">Phone Number</label>
+                                <input type="tel" id="contact-phone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="company-name">Company Name</label>
+                                <input type="text" id="company-name" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-type">Project Type</label>
+                            <select id="project-type" class="form-control">
+                                <option value="prototype">Prototype Development</option>
+                                <option value="production">Production Run</option>
+                                <option value="replacement">Replacement Parts</option>
+                                <option value="reverse-engineering">Reverse Engineering</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="as9100d-required" class="checkbox">
+                                <label for="as9100d-required">AS9100D documentation required</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="inspection-report" class="checkbox">
+                                <label for="inspection-report">Full inspection report needed</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="material-certs" class="checkbox">
+                                <label for="material-certs">Material certifications required</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rfq-modal__footer">
+                <button class="btn btn--secondary" id="rfq-prev" style="display: none;">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                <button class="btn btn--primary" id="rfq-next">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="btn btn--success" id="rfq-submit" style="display: none;">
+                    <i class="fas fa-paper-plane"></i> Submit RFQ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manufacturing Location Section -->
+    <section class="manufacturing-location section">
+        <div class="container">
+            <div class="location-content">
+                <div class="location-text">
+                    <div class="section__header">
+                        <span class="section__subtitle">Manufacturing Excellence</span>
+                        <h2 class="section__title">Meticulously Manufactured in the Eurozone</h2>
+                        <p class="section__description">
+                            Strategically located in Türkiye, we combine European quality standards with competitive manufacturing capabilities, offering our clients the perfect balance of precision, cost-effectiveness, and regulatory compliance.
+                        </p>
+                    </div>
+                    
+                    <div class="location-features">
+                        <div class="location-feature">
+                            <div class="location-feature__icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="location-feature__content">
+                                <h4>Strategic Eurozone Location</h4>
+                                <p>Positioned in Türkiye for optimal access to European markets while maintaining competitive manufacturing costs</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-feature">
+                            <div class="location-feature__icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="location-feature__content">
+                                <h4>European Quality Standards</h4>
+                                <p>Full compliance with EU regulations, AS9100D certification, and ISO quality management systems</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-feature">
+                            <div class="location-feature__icon">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="location-feature__content">
+                                <h4>Rapid European Delivery</h4>
+                                <p>Direct shipping to European markets with streamlined customs and logistics networks</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-feature">
+                            <div class="location-feature__icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="location-feature__content">
+                                <h4>Cultural & Business Alignment</h4>
+                                <p>European business practices combined with Turkish manufacturing excellence and work ethic</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="location-stats">
+                        <div class="location-stat">
+                            <div class="location-stat__number">2-5</div>
+                            <div class="location-stat__label">Days to EU</div>
+                        </div>
+                        <div class="location-stat">
+                            <div class="location-stat__number">EU</div>
+                            <div class="location-stat__label">Compliant</div>
+                        </div>
+                        <div class="location-stat">
+                            <div class="location-stat__number">24/7</div>
+                            <div class="location-stat__label">Operations</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-visual">
+                    <div class="location-map">
+                        <div class="map-placeholder">
+                            <div class="map-marker turkey">
+                                <i class="fas fa-map-pin"></i>
+                                <span class="marker-label">TobroTech - Türkiye</span>
+                            </div>
+                            <div class="map-connections">
+                                <div class="connection-line europe"></div>
+                                <div class="connection-line asia"></div>
+                            </div>
+                            <div class="map-benefits">
+                                <div class="benefit-badge eurozone">
+                                    <i class="fas fa-globe-europe"></i>
+                                    <span>Eurozone Access</span>
+                                </div>
+                                <div class="benefit-badge competitive">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Competitive Costs</span>
+                                </div>
+                                <div class="benefit-badge quality">
+                                    <i class="fas fa-award"></i>
+                                    <span>EU Quality Standards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer section">
+        <div class="container">
+            <div class="footer__container grid">
+                <div class="footer__content">
+                    <a href="index.html" class="footer__logo">TobroTech</a>
+                    <span class="footer__description">
+                        Precision CNC machining for critical industries with uncompromising quality and reliability.
+                    </span>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link">
+                            <i class="ri-linkedin-box-fill"></i>
+                        </a>
+                        <a href="#" class="footer__social-link">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Services</h3>
+                    <ul class="footer__list">
+                        <li><a href="#services" class="footer__link">CNC Machining</a></li>
+                        <li><a href="#services" class="footer__link">Prototyping</a></li>
+                        <li><a href="#services" class="footer__link">Production</a></li>
+                        <li><a href="#services" class="footer__link">Quality Control</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Materials</h3>
+                    <ul class="footer__list">
+                        <li><a href="materials/aluminum.html" class="footer__link">Aluminum Alloys</a></li>
+                        <li><a href="materials.html" class="footer__link">Stainless Steel</a></li>
+                        <li><a href="materials.html" class="footer__link">Titanium</a></li>
+                        <li><a href="materials.html" class="footer__link">Engineering Plastics</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__content">
+                    <h3 class="footer__title">Company</h3>
+                    <ul class="footer__list">
+                        <li><a href="#about" class="footer__link">About Us</a></li>
+                        <li><a href="#contact" class="footer__link">Contact</a></li>
+                        <li><a href="rfq-panel.html" class="footer__link">Get Quote</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <span class="footer__copy">
+                    &#169; 2024 TobroTech. All rights reserved.
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCROLL UP ===== -->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-line"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
+    <!-- OCCT Import JS for real STEP/IGES support -->
+    <script src="https://cdn.jsdelivr.net/npm/occt-import-js@0.0.23/dist/occt-import-js.js"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/occt-import-integration.js"></script>
+    <script src="js/cad-viewer.js"></script>
+    <script src="js/rfq-system.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
