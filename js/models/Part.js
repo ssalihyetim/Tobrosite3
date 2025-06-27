@@ -22,6 +22,7 @@ class Part {
         
         // Files and Documentation
         this.files = data.files || []; // Array of file objects
+        this.fileIds = data.fileIds || []; // Array of file IDs for database storage
         this.drawings = data.drawings || []; // Technical drawings
         this.models = data.models || []; // 3D models
         this.images = data.images || []; // Reference images
@@ -96,6 +97,7 @@ class Part {
         
         // Process file references
         if (rfqPartData.fileIds && Array.isArray(rfqPartData.fileIds)) {
+            this.fileIds = rfqPartData.fileIds;
             this.files = rfqPartData.fileIds.map(fileId => ({
                 id: fileId,
                 type: 'reference',
@@ -375,7 +377,24 @@ class Part {
                 this.files.push(fileLink);
         }
         
+        // Update fileIds array to keep database in sync
+        this.updateFileIds();
         this.updatedAt = new Date().toISOString();
+    }
+
+    /**
+     * Update fileIds array from files array
+     */
+    updateFileIds() {
+        const allFileIds = [];
+        
+        // Collect IDs from all file arrays
+        this.files.forEach(file => allFileIds.push(file.id));
+        this.drawings.forEach(file => allFileIds.push(file.id));
+        this.models.forEach(file => allFileIds.push(file.id));
+        this.images.forEach(file => allFileIds.push(file.id));
+        
+        this.fileIds = [...new Set(allFileIds)]; // Remove duplicates
     }
 
     /**
@@ -530,6 +549,7 @@ class Part {
             tolerances: this.tolerances,
             dimensions: this.dimensions,
             files: this.files,
+            fileIds: this.fileIds,
             drawings: this.drawings,
             models: this.models,
             images: this.images,

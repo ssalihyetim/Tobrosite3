@@ -15,13 +15,21 @@ class RFQPanelSystem {
         this._pendingFile = null;
         
         // Initialize data structure
-        this.sampleData = {
+        this.data = {
             rfqs: [],
             parts: []
         };
         
-        // Initialize file storage and system
-        this.initializeSystem();
+        // Initialize data manager
+        this.dataManager = null;
+        
+        // Wait for DOM and all scripts to load before initializing
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.initializeSystem());
+        } else {
+            // DOM already loaded, but wait a moment for scripts to initialize
+            setTimeout(() => this.initializeSystem(), 100);
+        }
     }
     
     async initFileStorage() {
@@ -39,16 +47,58 @@ class RFQPanelSystem {
     
     async initializeSystem() {
         try {
+            // Initialize data manager
+            await this.initializeDataManager();
+            
             // Initialize file storage first
             await this.initFileStorage();
             
             // Then initialize the main system
             await this.init();
             
-            // Load sample data
-            this.loadSampleData();
         } catch (error) {
             console.error('Failed to initialize system:', error);
+        }
+    }
+
+    async initializeDataManager() {
+        console.log('RFQ Panel: Initializing data manager...');
+        
+        // Wait for Supabase components to be ready (up to 5 seconds)
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds with 100ms intervals
+        
+        while (attempts < maxAttempts) {
+            if (window.SupabaseDataManager && window.SUPABASE_CONFIG?.url && window.SUPABASE_CONFIG?.anonKey) {
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
+        console.log('SupabaseDataManager available:', !!window.SupabaseDataManager);
+        console.log('SUPABASE_CONFIG available:', !!window.SUPABASE_CONFIG);
+        console.log('SUPABASE_CONFIG.url:', window.SUPABASE_CONFIG?.url);
+        console.log('SUPABASE_CONFIG.anonKey exists:', !!window.SUPABASE_CONFIG?.anonKey);
+        
+        try {
+            // Check if SupabaseDataManager is available and Supabase is configured
+            if (window.SupabaseDataManager && window.SUPABASE_CONFIG?.url && window.SUPABASE_CONFIG?.anonKey) {
+                this.dataManager = new window.SupabaseDataManager();
+                const initSuccess = await this.dataManager.init();
+                if (initSuccess) {
+                    console.log('✅ RFQ Panel: SupabaseDataManager initialized successfully');
+                } else {
+                    console.log('⚠️ RFQ Panel: SupabaseDataManager failed to initialize, falling back to localStorage');
+                }
+            } else {
+                // Fallback to localStorage for backwards compatibility
+                console.log('❌ RFQ Panel: Supabase not available, using localStorage');
+                this.dataManager = null;
+            }
+        } catch (error) {
+            console.error('❌ Failed to initialize data manager:', error);
+            this.dataManager = null;
         }
     }
 
@@ -151,7 +201,7 @@ class RFQPanelSystem {
 
     showPartsList(rfqId) {
         if (rfqId) {
-            this.currentRFQ = this.sampleData.rfqs.find(rfq => rfq.id === rfqId);
+            this.currentRFQ = this.data.rfqs.find(rfq => rfq.id === rfqId);
         }
         
         if (this.currentRFQ) {
@@ -162,7 +212,7 @@ class RFQPanelSystem {
 
     showPartDetails(partId) {
         if (partId) {
-            this.currentPart = this.sampleData.parts.find(part => part.id === partId);
+            this.currentPart = this.data.parts.find(part => part.id === partId);
         }
         
         if (this.currentPart) {
@@ -174,144 +224,13 @@ class RFQPanelSystem {
     }
 
     // RFQ Management
-    loadSampleData() {
-        if (this.sampleData.rfqs.length === 0) {
-            this.sampleData.rfqs = [
-                {
-                    id: 'RFQ-001',
-                    number: 'RFQ-001',
-                    status: 'draft',
-                    customer: {
-                        name: 'John Smith',
-                        email: 'john@aerospace-corp.com',
-                        company: 'Aerospace Corporation',
-                        phone: '+1 (555) 123-4567'
-                    },
-                    project: {
-                        name: 'Landing Gear Components',
-                        description: 'Critical aerospace parts for new aircraft model'
-                    },
-                    shipping: {
-                        address: '123 Industrial Blvd, Seattle, WA 98101',
-                        priority: 'expedited'
-                    },
-                    created: new Date('2024-01-15'),
-                    modified: new Date(),
-                    partsCount: 3,
-                    estimatedValue: 15750.00
-                },
-                {
-                    id: 'RFQ-002',
-                    number: 'RFQ-002',
-                    status: 'submitted',
-                    customer: {
-                        name: 'Sarah Johnson',
-                        email: 'sarah@medical-devices.com',
-                        company: 'Medical Devices Inc',
-                        phone: '+1 (555) 987-6543'
-                    },
-                    project: {
-                        name: 'Surgical Instrument Housing',
-                        description: 'Precision titanium components for surgical tools'
-                    },
-                    shipping: {
-                        address: '456 Tech Drive, Austin, TX 78701',
-                        priority: 'standard'
-                    },
-                    created: new Date('2024-01-10'),
-                    modified: new Date('2024-01-12'),
-                    partsCount: 5,
-                    estimatedValue: 22400.00
-                }
-            ];
-
-            this.sampleData.parts = [
-                {
-                    id: 'PART-001',
-                    rfqId: 'RFQ-001',
-                    number: 'PART-001',
-                    name: 'Main Housing',
-                    description: 'Primary aluminum housing for landing gear assembly',
-                    files: [],
-                    specifications: {
-                        quantity: 10,
-                        material: 'aluminum-7075',
-                        materialCondition: 'heat-treated',
-                        tolerance: 'tight',
-                        surfaceFinish: 'smooth',
-                        coating: 'anodize-clear',
-                        requiredDelivery: '2024-02-15',
-                        priority: 'expedited',
-                        as9100d: true,
-                        materialCerts: true,
-                        inspectionReport: true,
-                        firstArticle: true,
-                        specialInstructions: 'Critical aerospace application - full traceability required'
-                    },
-                    status: 'configured',
-                    estimatedValue: 8500.00
-                },
-                {
-                    id: 'PART-002',
-                    rfqId: 'RFQ-001',
-                    number: 'PART-002',
-                    name: 'Support Bracket',
-                    description: 'Secondary support structure for housing assembly',
-                    files: [],
-                    specifications: {
-                        quantity: 20,
-                        material: 'aluminum-6061',
-                        materialCondition: 'as-machined',
-                        tolerance: 'standard',
-                        surfaceFinish: 'standard',
-                        coating: '',
-                        requiredDelivery: '2024-02-15',
-                        priority: 'expedited',
-                        as9100d: true,
-                        materialCerts: false,
-                        inspectionReport: true,
-                        firstArticle: false,
-                        specialInstructions: ''
-                    },
-                    status: 'configured',
-                    estimatedValue: 4200.00
-                },
-                {
-                    id: 'PART-003',
-                    rfqId: 'RFQ-001',
-                    number: 'PART-003',
-                    name: 'Precision Pin',
-                    description: 'High-precision connecting pin',
-                    files: [],
-                    specifications: {
-                        quantity: 50,
-                        material: 'stainless-17-4',
-                        materialCondition: 'heat-treated',
-                        tolerance: 'precision',
-                        surfaceFinish: 'polished',
-                        coating: 'passivation',
-                        requiredDelivery: '2024-02-15',
-                        priority: 'expedited',
-                        as9100d: true,
-                        materialCerts: true,
-                        inspectionReport: true,
-                        firstArticle: true,
-                        specialInstructions: 'Surface finish critical for wear resistance'
-                    },
-                    status: 'configured',
-                    estimatedValue: 3050.00
-                }
-            ];
-        }
-    }
-
     renderRFQList() {
         const tableBody = document.getElementById('rfq-table-body');
         const emptyState = document.getElementById('empty-rfq-state');
         
         if (!tableBody) return;
 
-        if (this.sampleData.rfqs.length === 0) {
+        if (this.data.rfqs.length === 0) {
             tableBody.innerHTML = '';
             if (emptyState) emptyState.style.display = 'block';
             return;
@@ -319,7 +238,7 @@ class RFQPanelSystem {
 
         if (emptyState) emptyState.style.display = 'none';
 
-        tableBody.innerHTML = this.sampleData.rfqs.map(rfq => `
+        tableBody.innerHTML = this.data.rfqs.map(rfq => `
             <tr onclick="rfqPanel.showPartsList('${rfq.id}')" style="cursor: pointer;">
                 <td><strong>${rfq.number}</strong></td>
                 <td><span class="status-badge ${rfq.status}">${this.getStatusText(rfq.status)}</span></td>
@@ -357,7 +276,7 @@ class RFQPanelSystem {
         }
         
         if (statusElement) {
-            const currentParts = this.sampleData.parts.filter(part => part.rfqId === this.currentRFQ.id);
+            const currentParts = this.data.parts.filter(part => part.rfqId === this.currentRFQ.id);
             statusElement.innerHTML = `
                 Status: <span class="status-badge ${this.currentRFQ.status}">${this.getStatusText(this.currentRFQ.status)}</span> • 
                 ${currentParts.length} Parts • 
@@ -369,7 +288,7 @@ class RFQPanelSystem {
         const partsGrid = document.getElementById('parts-grid');
         if (!partsGrid) return;
 
-        const currentParts = this.sampleData.parts.filter(part => part.rfqId === this.currentRFQ.id);
+        const currentParts = this.data.parts.filter(part => part.rfqId === this.currentRFQ.id);
 
         if (currentParts.length === 0) {
             partsGrid.innerHTML = `
@@ -553,6 +472,14 @@ class RFQPanelSystem {
         try {
             const fileObjects = await Promise.all(uploadPromises);
             this.currentPart.files.push(...fileObjects);
+            
+            // Update fileIds array for database consistency
+            if (this.currentPart.updateFileIds) {
+                this.currentPart.updateFileIds();
+            } else {
+                // Fallback if Part model doesn't have updateFileIds method
+                this.currentPart.fileIds = this.currentPart.files.map(file => file.id);
+            }
             
             this.renderUploadedFiles();
             this.saveToStorage();
@@ -894,14 +821,15 @@ class RFQPanelSystem {
     }
 
     generateId() {
-        return 'ID-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        // Use the same UUID generation as generateUUID for consistency
+        return this.generateUUID();
     }
 
     // Storage
     saveToStorage() {
         try {
             // Create a deep copy of the data excluding File objects which can't be serialized
-            const dataToSave = JSON.parse(JSON.stringify(this.sampleData, (key, value) => {
+            const dataToSave = JSON.parse(JSON.stringify(this.data, (key, value) => {
                 // Skip the actual File object as it can't be serialized
                 if (key === 'file' && value instanceof File) {
                     return null;
@@ -921,8 +849,8 @@ class RFQPanelSystem {
             
             if (savedData) {
                 const parsed = JSON.parse(savedData);
-                this.sampleData.rfqs = parsed.rfqs || [];
-                this.sampleData.parts = parsed.parts || [];
+                this.data.rfqs = parsed.rfqs || [];
+                this.data.parts = parsed.parts || [];
                 
                 // Check which files are available in IndexedDB
                 if (window.fileStorage) {
@@ -930,19 +858,31 @@ class RFQPanelSystem {
                         const allStoredFiles = await window.fileStorage.getAllFiles();
                         const storedFileIds = new Set(allStoredFiles.map(f => f.id));
                         
-                        // Mark files as stored in DB if they exist there
-                        this.sampleData.parts.forEach(part => {
-                            if (part.files) {
-                                part.files.forEach(file => {
-                                    file.storedInDB = storedFileIds.has(file.id);
-                                });
-                            }
+                                        // Mark files as stored in DB if they exist there and ensure fileIds exists
+                this.data.parts.forEach(part => {
+                    if (part.files) {
+                        part.files.forEach(file => {
+                            file.storedInDB = storedFileIds.has(file.id);
                         });
+                    }
+                    
+                    // Ensure fileIds property exists for backward compatibility
+                    if (!part.fileIds) {
+                        part.fileIds = part.files ? part.files.map(file => file.id) : [];
+                    }
+                });
                         
                         console.log(`Found ${allStoredFiles.length} files in IndexedDB`);
                     } catch (error) {
                         console.warn('Error checking IndexedDB files:', error);
                     }
+                } else {
+                    // Ensure fileIds property exists even without IndexedDB
+                    this.data.parts.forEach(part => {
+                        if (!part.fileIds) {
+                            part.fileIds = part.files ? part.files.map(file => file.id) : [];
+                        }
+                    });
                 }
             }
         } catch (error) {
@@ -1218,6 +1158,14 @@ class RFQPanelSystem {
         // Remove file from array
         this.currentPart.files.splice(fileIndex, 1);
         
+        // Update fileIds array for database consistency
+        if (this.currentPart.updateFileIds) {
+            this.currentPart.updateFileIds();
+        } else {
+            // Fallback if Part model doesn't have updateFileIds method
+            this.currentPart.fileIds = this.currentPart.files.map(file => file.id);
+        }
+        
         // Update UI
         this.renderUploadedFiles();
         this.saveToStorage();
@@ -1379,7 +1327,7 @@ class RFQPanelSystem {
     }
 
     // RFQ Operations
-    createRFQ() {
+    async createRFQ() {
         const form = document.getElementById('new-rfq-form');
         if (!form) return;
 
@@ -1395,9 +1343,12 @@ class RFQPanelSystem {
             return;
         }
 
+        // Generate unique RFQ number
+        const rfqNumber = await this.generateRFQNumber();
+
         const newRFQ = {
             id: this.generateId(),
-            number: this.generateRFQNumber(),
+            number: rfqNumber,
             status: 'draft',
             customer: {
                 name: customerName,
@@ -1419,7 +1370,7 @@ class RFQPanelSystem {
             estimatedValue: 0
         };
 
-        this.sampleData.rfqs.unshift(newRFQ);
+        this.data.rfqs.unshift(newRFQ);
         this.saveToStorage();
         this.renderRFQList();
         this.closeNewRFQModal();
@@ -1434,8 +1385,10 @@ class RFQPanelSystem {
     }
 
     editRFQ(rfqId) {
-        const rfq = this.sampleData.rfqs.find(r => r.id === rfqId);
+        const rfq = this.data.rfqs.find(r => r.id === rfqId);
         if (!rfq) return;
+
+        this.currentRFQ = rfq;
 
         // Pre-fill modal with existing data
         document.getElementById('customer-name').value = rfq.customer.name;
@@ -1454,8 +1407,8 @@ class RFQPanelSystem {
         }
 
         // Remove RFQ and associated parts
-        this.sampleData.rfqs = this.sampleData.rfqs.filter(rfq => rfq.id !== rfqId);
-        this.sampleData.parts = this.sampleData.parts.filter(part => part.rfqId !== rfqId);
+        this.data.rfqs = this.data.rfqs.filter(rfq => rfq.id !== rfqId);
+        this.data.parts = this.data.parts.filter(part => part.rfqId !== rfqId);
         
         this.saveToStorage();
         this.renderRFQList();
@@ -1465,7 +1418,7 @@ class RFQPanelSystem {
     async submitCurrentRFQ() {
         if (!this.currentRFQ) return;
 
-        const currentParts = this.sampleData.parts.filter(part => part.rfqId === this.currentRFQ.id);
+        const currentParts = this.data.parts.filter(part => part.rfqId === this.currentRFQ.id);
         
         if (currentParts.length === 0) {
             this.showNotification('Please add at least one part before submitting', 'error');
@@ -1503,8 +1456,35 @@ class RFQPanelSystem {
             // Prepare RFQ data for submission
             const submissionData = await this.prepareRFQSubmission(currentParts);
             
-            // Send to admin via email service
-            const result = await this.sendRFQToAdmin(submissionData);
+            // Try to save to Supabase first
+            let supabaseSuccess = false;
+            console.log('🔍 RFQ Submission: Checking Supabase data manager...');
+            console.log('DataManager available:', !!this.dataManager);
+            
+            if (this.dataManager) {
+                console.log('📤 Attempting to save RFQ to Supabase...');
+                try {
+                    const result = await this.saveRFQToSupabase(submissionData);
+                    if (result.success) {
+                        console.log('✅ RFQ successfully saved to Supabase database');
+                        supabaseSuccess = true;
+                    }
+                } catch (supabaseError) {
+                    console.error('❌ Supabase submission failed:', supabaseError);
+                    // Continue to email notifications anyway
+                }
+            } else {
+                console.log('⚠️ No data manager available, skipping Supabase save');
+            }
+            
+            // Send email notification regardless (for admin awareness)
+            let emailResult = null;
+            try {
+                emailResult = await this.sendRFQToAdmin(submissionData);
+            } catch (emailError) {
+                console.log('Email notification failed:', emailError.message);
+                // If Supabase worked, this is OK. If not, we'll handle it below.
+            }
             
             // Update local status
             this.currentRFQ.status = 'submitted';
@@ -1512,11 +1492,19 @@ class RFQPanelSystem {
             this.saveToStorage();
             this.renderPartsList();
             
-            // Show appropriate success message based on submission method
-            if (result && result.method === 'download') {
+            // Show appropriate success message
+            if (supabaseSuccess) {
+                if (emailResult && emailResult.method !== 'download') {
+                    this.showNotification('RFQ submitted successfully! Saved to our system and notification sent.', 'success');
+                } else {
+                    this.showNotification('RFQ submitted successfully! Your request has been saved to our system.', 'success');
+                }
+            } else if (emailResult && emailResult.method === 'download') {
                 this.showNotification('RFQ packaged for manual submission. Please email the downloaded file.', 'info');
-            } else {
+            } else if (emailResult) {
                 this.showNotification('RFQ submitted successfully! You will receive a confirmation email shortly.', 'success');
+            } else {
+                throw new Error('All submission methods failed');
             }
             
         } catch (error) {
@@ -1638,6 +1626,366 @@ class RFQPanelSystem {
             reader.onload = () => resolve(reader.result.split(',')[1]); // Remove data:mime;base64, prefix
             reader.onerror = error => reject(error);
         });
+    }
+
+    /**
+     * Save RFQ to Supabase database
+     */
+    async saveRFQToSupabase(submissionData) {
+        if (!this.dataManager) {
+            throw new Error('Supabase data manager not available');
+        }
+
+        try {
+            console.log('📊 Saving RFQ to Supabase database...');
+            console.log('Submission data:', submissionData);
+            console.log('RFQ number from submission:', submissionData.rfq.number);
+            console.log('RFQ number type:', typeof submissionData.rfq.number);
+
+            // Sanitize all IDs to ensure they're valid UUIDs
+            submissionData = this.sanitizeDataForDatabase(submissionData);
+
+            // 1. Check if customer exists, if not create new one
+            let customerId;
+            let existingCustomer = null;
+            
+            try {
+                // First, try to find existing customer by email
+                existingCustomer = await this.dataManager.getCustomerByEmail(submissionData.rfq.customer.email);
+            } catch (error) {
+                console.log('Error checking for existing customer:', error);
+            }
+            
+            if (existingCustomer) {
+                // Use existing customer ID
+                customerId = existingCustomer.id;
+                console.log('Using existing customer:', customerId);
+            } else {
+                // Create new customer
+                customerId = this.generateCustomerId(submissionData.rfq.customer);
+                const customerData = {
+                    id: customerId,
+                    name: submissionData.rfq.customer.name,
+                    email: submissionData.rfq.customer.email,
+                    company: submissionData.rfq.customer.company,
+                    phone: submissionData.rfq.customer.phone,
+                    address: submissionData.rfq.shipping?.address || null
+                };
+
+                await this.dataManager.saveCustomer(customerData);
+                console.log('Created new customer:', customerId);
+            }
+
+            // 2. Save RFQ
+            const rfqUUID = submissionData.rfq.id.startsWith('RFQ-') ? this.generateUUID() : submissionData.rfq.id;
+            
+            // Always generate a new RFQ number for submission to avoid conflicts
+            let rfqNumber;
+            try {
+                rfqNumber = await this.generateRFQNumber();
+                console.log('Generated new RFQ number for submission:', rfqNumber);
+            } catch (error) {
+                console.warn('Failed to generate RFQ number from database, using fallback:', error);
+                // Fallback: Generate a unique RFQ number with timestamp
+                const timestamp = Date.now().toString().slice(-6);
+                const year = new Date().getFullYear().toString().slice(-2);
+                const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
+                rfqNumber = `RFQ-${year}${month}-${timestamp}`;
+            }
+            
+            // Final failsafe: ensure RFQ number is never null/undefined
+            if (!rfqNumber || rfqNumber.trim() === '') {
+                const emergencyTimestamp = Date.now().toString().slice(-8);
+                rfqNumber = `RFQ-EMERGENCY-${emergencyTimestamp}`;
+                console.warn('Emergency RFQ number generated:', rfqNumber);
+            }
+
+            const rfqData = {
+                id: rfqUUID,
+                rfq_number: rfqNumber,
+                customer_id: customerId,
+                customer_info: submissionData.rfq.customer, // Store customer info as backup
+                title: submissionData.rfq.project?.name || 'RFQ Submission',
+                description: submissionData.rfq.project?.description || 'Submitted via RFQ Panel',
+                requirements: submissionData.rfq.project?.requirements || '',
+                status: 'new',
+                priority: 'normal',
+                total_parts: submissionData.summary.totalParts || 0,
+                total_quantity: submissionData.parts.reduce((sum, part) => sum + (part.specifications?.quantity || 1), 0),
+                estimated_value: submissionData.summary.estimatedValue || 0,
+                source: 'web_form',
+                notes: [{
+                    date: new Date().toISOString(),
+                    user: 'System',
+                    note: `Submitted via RFQ Panel. Total parts: ${submissionData.summary.totalParts}`
+                }],
+                timeline: [{
+                    date: new Date().toISOString(),
+                    action: 'RFQ Created',
+                    user: 'Customer',
+                    note: 'Initial submission via web form'
+                }],
+                submitted_at: submissionData.rfq.submittedAt || new Date().toISOString()
+            };
+
+            console.log('Final RFQ data being sent to Supabase:');
+            console.log('- rfq_number:', rfqData.rfq_number);
+            console.log('- rfq_number type:', typeof rfqData.rfq_number);
+            console.log('- Complete RFQ data:', rfqData);
+
+            // Try to save RFQ, handle unique constraint violations
+            try {
+                await this.dataManager.saveRFQ(rfqData);
+            } catch (error) {
+                if (error.code === '23505' && error.message.includes('rfq_number')) {
+                    // RFQ number conflict, generate a new one with additional randomness
+                    const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase();
+                    rfqData.rfq_number = `${rfqNumber}-${randomSuffix}`;
+                    await this.dataManager.saveRFQ(rfqData);
+                    console.log(`RFQ number conflict resolved, using: ${rfqData.rfq_number}`);
+                } else {
+                    throw error; // Re-throw if it's a different error
+                }
+            }
+
+            // 3. Save parts and create part ID mapping
+            const partIdMapping = {};
+            const partsToSave = [];
+            
+            for (const part of submissionData.parts) {
+                const partUUID = part.id.startsWith('PART-') ? this.generateUUID() : part.id;
+                partIdMapping[part.id] = partUUID;
+                
+                const partData = {
+                    id: partUUID,
+                    name: part.name,
+                    description: part.description,
+                    rfq_id: rfqUUID,
+                    part_number: part.number,
+                    quantity: part.specifications?.quantity || 1,
+                    material: part.specifications?.material || '',
+                    finish: part.specifications?.surfaceFinish || '',
+                    specifications: part.specifications,
+                    fileIds: part.fileIds || [],
+                    status: part.status,
+                    estimated_value: part.estimatedValue
+                };
+                partsToSave.push(partData);
+            }
+
+            if (partsToSave.length > 0) {
+                console.log('About to save parts to database:');
+                console.log('rfqUUID:', rfqUUID);
+                console.log('Parts data:', partsToSave);
+                
+                try {
+                    await this.dataManager.saveParts(partsToSave, rfqUUID);
+                    console.log('✅ Parts successfully saved to database');
+                } catch (partsError) {
+                    console.error('❌ Failed to save parts:', partsError);
+                    throw partsError;
+                }
+            }
+            
+            // 4. Upload files and save file metadata
+            if (submissionData.files && submissionData.files.length > 0) {
+                for (const file of submissionData.files) {
+                    try {
+                        // Fix MIME type for CAD files
+                        const correctedMimeType = this.getCorrectMimeType(file.name, file.type);
+                        
+                        // The file.data is a base64 string, so we need to convert it back to a blob
+                        const blob = await (await fetch(`data:${correctedMimeType};base64,${file.data}`)).blob();
+                        const fileToUpload = new File([blob], file.name, { type: correctedMimeType });
+
+                        const partId = partIdMapping[file.partId];
+
+                        console.log(`Uploading file: ${file.name} with MIME type: ${correctedMimeType}`);
+
+                        // Try to upload file to Supabase storage
+                        try {
+                            await this.dataManager.uploadFile(
+                                fileToUpload,
+                                rfqUUID,
+                                file.id,
+                                partId
+                            );
+                            console.log(`✅ Successfully uploaded file: ${file.name}`);
+                        } catch (uploadError) {
+                            console.warn(`⚠️ File upload failed for ${file.name}, saving metadata only:`, uploadError);
+                            
+                            // Save file metadata even if upload fails
+                            const metadata = {
+                                id: file.id,
+                                rfq_id: rfqUUID,
+                                part_id: partId,
+                                filename: file.name,
+                                file_path: `failed_upload/${file.name}`,
+                                file_size: file.size || 0,
+                                content_type: correctedMimeType,
+                                uploaded_at: new Date().toISOString(),
+                                upload_status: 'failed',
+                                error_message: uploadError.message
+                            };
+                            
+                            try {
+                                await this.dataManager.saveFileMetadata(metadata);
+                                console.log(`✅ File metadata saved for ${file.name}`);
+                            } catch (metadataError) {
+                                console.error(`❌ Failed to save metadata for ${file.name}:`, metadataError);
+                            }
+                        }
+                    } catch (fileError) {
+                        console.error(`Failed to upload file ${file.name}:`, fileError);
+                        // Continue with other files even if one fails
+                    }
+                }
+            }
+            
+            return { success: true };
+
+        } catch (error) {
+            console.error('An error occurred during RFQ submission to Supabase:', error);
+            // Re-throw to be caught by the caller
+            throw new Error(`Failed to save RFQ to database: ${error.message}`);
+        }
+    }
+
+    /**
+     * Get correct MIME type for CAD files and other file types
+     */
+    getCorrectMimeType(filename, originalType) {
+        const extension = filename.split('.').pop().toLowerCase();
+        
+        // CAD file MIME types that Supabase rfq-files bucket accepts
+        const mimeTypes = {
+            'stp': 'application/step',          // Supabase bucket allows this
+            'step': 'application/step',         // Supabase bucket allows this
+            'igs': 'application/iges',          // Supabase bucket allows this
+            'iges': 'application/iges',         // Supabase bucket allows this
+            'stl': 'model/stl',                 // Supabase bucket allows this
+            'pdf': 'application/pdf',           // Supabase bucket allows this
+            'png': 'image/png',                 // Supabase bucket allows this
+            'jpg': 'image/jpeg',                // Supabase bucket allows this
+            'jpeg': 'image/jpeg',               // Supabase bucket allows this
+            'gif': 'image/gif',                 // Supabase bucket allows this
+            'txt': 'text/plain',                // Supabase bucket allows this
+            'zip': 'application/zip',           // Supabase bucket allows this
+            // Remove unsupported types to avoid confusion
+        };
+        
+        // Return specific MIME type if we know it, otherwise use original or fallback
+        if (mimeTypes[extension]) {
+            console.log(`MIME type corrected for ${filename}: ${originalType} → ${mimeTypes[extension]}`);
+            return mimeTypes[extension];
+        }
+        
+        // If original type is application/octet-stream, use a fallback that's allowed by Supabase
+        if (originalType === 'application/octet-stream') {
+            // Default to application/step for unknown CAD files
+            console.log(`Fallback MIME type for ${filename}: application/octet-stream → application/step`);
+            return 'application/step';
+        }
+        
+        return originalType;
+    }
+
+    /**
+     * Generate UUID v4
+     */
+    generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    /**
+     * Check if a string is a valid UUID format
+     */
+    isValidUUID(str) {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        return uuidRegex.test(str);
+    }
+
+    /**
+     * Ensure all IDs in the data are valid UUIDs, converting old-style IDs if needed
+     */
+    sanitizeDataForDatabase(data) {
+        const idMapping = new Map();
+        
+        // Helper function to ensure valid UUID
+        const ensureValidUUID = (id, prefix = '') => {
+            if (!id || this.isValidUUID(id)) {
+                return id;
+            }
+            
+            // If we've already mapped this ID, use the mapped version
+            if (idMapping.has(id)) {
+                return idMapping.get(id);
+            }
+            
+            // Generate new UUID for old-style ID
+            const newUUID = this.generateUUID();
+            idMapping.set(id, newUUID);
+            console.log(`Converted old-style ID "${id}" to UUID "${newUUID}"`);
+            return newUUID;
+        };
+        
+        // Sanitize RFQ ID
+        if (data.rfq && data.rfq.id) {
+            data.rfq.id = ensureValidUUID(data.rfq.id, 'rfq');
+        }
+        
+        // Sanitize part IDs and file IDs
+        if (data.parts) {
+            data.parts.forEach(part => {
+                if (part.id) {
+                    part.id = ensureValidUUID(part.id, 'part');
+                }
+                if (part.rfqId) {
+                    part.rfqId = ensureValidUUID(part.rfqId, 'rfq');
+                }
+                if (part.fileIds) {
+                    part.fileIds = part.fileIds.map(fileId => ensureValidUUID(fileId, 'file'));
+                }
+            });
+        }
+        
+        // Sanitize file IDs
+        if (data.files) {
+            data.files.forEach(file => {
+                if (file.id) {
+                    file.id = ensureValidUUID(file.id, 'file');
+                }
+            });
+        }
+        
+        return data;
+    }
+
+    /**
+     * Generate consistent customer ID based on email (using UUID format)
+     */
+    generateCustomerId(customer) {
+        // Check if customer already exists by email first
+        const email = customer.email.toLowerCase().trim();
+        
+        // Create a deterministic UUID based on email
+        // This ensures the same customer always gets the same ID
+        let hash = 0;
+        for (let i = 0; i < email.length; i++) {
+            hash = ((hash << 5) - hash) + email.charCodeAt(i);
+            hash = hash & hash; // Convert to 32-bit integer
+        }
+        
+        // Convert hash to hex and pad
+        const hashHex = Math.abs(hash).toString(16).padStart(8, '0');
+        
+        // Create a UUID-like format based on the hash (proper UUID format: 8-4-4-4-12)
+        const timestamp = Date.now().toString(16).slice(-4); // Only use 4 chars for proper UUID format
+        return `${hashHex.slice(0, 8)}-${hashHex.slice(0, 4)}-4${hashHex.slice(1, 4)}-a${hashHex.slice(0, 3)}-${hashHex}${timestamp}`;
     }
 
     async sendRFQToAdmin(submissionData) {
@@ -1937,6 +2285,7 @@ class RFQPanelSystem {
             name: 'New Part',
             description: '',
             files: [],
+            fileIds: [],
             specifications: {
                 quantity: 1,
                 material: '',
@@ -1958,28 +2307,27 @@ class RFQPanelSystem {
             estimatedValue: 0
         };
 
-        this.sampleData.parts.push(newPart);
-        this.currentRFQ.partsCount = this.sampleData.parts.filter(p => p.rfqId === this.currentRFQ.id).length;
+        this.data.parts.push(newPart);
+        this.currentRFQ.partsCount = this.data.parts.filter(p => p.rfqId === this.currentRFQ.id).length;
         this.saveToStorage();
         this.renderPartsList();
         this.showPartDetails(newPart.id);
     }
 
     duplicatePart(partId) {
-        const originalPart = this.sampleData.parts.find(p => p.id === partId);
+        const originalPart = this.data.parts.find(p => p.id === partId);
         if (!originalPart) return;
 
-        const duplicatedPart = {
-            ...originalPart,
-            id: this.generateId(),
-            number: this.generatePartNumber(),
-            name: originalPart.name + ' (Copy)',
-            files: [], // Don't copy files
-            specifications: { ...originalPart.specifications }
-        };
+        const newPart = JSON.parse(JSON.stringify(originalPart));
+        newPart.id = this.generateId();
+        newPart.number = this.generatePartNumber();
+        newPart.name = `${originalPart.name} (Copy)`;
+        
+        // Files need special handling - they are not serialized
+        newPart.files = []; 
+        newPart.fileIds = [];
 
-        this.sampleData.parts.push(duplicatedPart);
-        this.currentRFQ.partsCount = this.sampleData.parts.filter(p => p.rfqId === this.currentRFQ.id).length;
+        this.data.parts.push(newPart);
         this.saveToStorage();
         this.renderPartsList();
         this.showNotification('Part duplicated successfully');
@@ -1990,9 +2338,9 @@ class RFQPanelSystem {
             return;
         }
 
-        this.sampleData.parts = this.sampleData.parts.filter(part => part.id !== partId);
+        this.data.parts = this.data.parts.filter(part => part.id !== partId);
         if (this.currentRFQ) {
-            this.currentRFQ.partsCount = this.sampleData.parts.filter(p => p.rfqId === this.currentRFQ.id).length;
+            this.currentRFQ.partsCount = this.data.parts.filter(p => p.rfqId === this.currentRFQ.id).length;
         }
         this.saveToStorage();
         this.renderPartsList();
@@ -2008,7 +2356,7 @@ class RFQPanelSystem {
 
         if (!this.currentRFQ) return;
 
-        const currentParts = this.sampleData.parts.filter(part => part.rfqId === this.currentRFQ.id);
+        const currentParts = this.data.parts.filter(part => part.rfqId === this.currentRFQ.id);
         const totalParts = currentParts.length;
         const totalValue = currentParts.reduce((sum, part) => sum + (part.estimatedValue || 0), 0);
 
@@ -2018,15 +2366,32 @@ class RFQPanelSystem {
         if (deliveryAddressElem) deliveryAddressElem.textContent = this.currentRFQ.shipping?.address || 'Not specified';
     }
 
-    generateRFQNumber() {
+    async generateRFQNumber() {
         const year = new Date().getFullYear().toString().slice(-2);
         const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
-        const sequence = (this.sampleData.rfqs.length + 1).toString().padStart(3, '0');
+        
+        let sequences = [];
+        if (this.dataManager) {
+            sequences = await this.dataManager.getRFQSequencesForMonth();
+        }
+        
+        // Also check local data as fallback
+        const localSequences = this.data.rfqs
+            .filter(rfq => rfq.number && rfq.number.startsWith(`RFQ-${year}${month}-`))
+            .map(rfq => {
+                const parts = rfq.number.split('-');
+                return parts.length === 3 ? parseInt(parts[2], 10) : 0;
+            });
+            
+        sequences = sequences.concat(localSequences);
+
+        const maxSequence = sequences.length > 0 ? Math.max(...sequences) : 0;
+        const sequence = (maxSequence + 1).toString().padStart(3, '0');
         return `RFQ-${year}${month}-${sequence}`;
     }
 
     generatePartNumber() {
-        const totalParts = this.sampleData.parts.length;
+        const totalParts = this.data.parts.length;
         return `P${(totalParts + 1).toString().padStart(3, '0')}`;
     }
 
