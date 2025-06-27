@@ -1953,11 +1953,14 @@ class RFQPanelSystem {
             });
         }
         
-        // Sanitize file IDs
+        // Sanitize file IDs and partId references
         if (data.files) {
             data.files.forEach(file => {
                 if (file.id) {
                     file.id = ensureValidUUID(file.id, 'file');
+                }
+                if (file.partId) {
+                    file.partId = ensureValidUUID(file.partId, 'part');
                 }
             });
         }
